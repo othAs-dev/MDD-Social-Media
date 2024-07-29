@@ -1,0 +1,102 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+$bright-navy-blue-palette: (
+  50: #000,
+  100: #000000,
+  200: #000,
+  300: #000,
+  400: #000,
+  500: #000,
+  600: #000,
+  700: #000,
+  800: #000,
+  900: #000,
+  A100: #000,
+  A200: #000,
+  A400: #000,
+  A700: #000,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+$gainsboro-palette: (
+  50: #f6a636,
+  100: #f6a636,
+  200: #f6a636,
+  300: #f6a636,
+  400: #f6a636,
+  500: #f6a636,
+  600: #f6a636,
+  700: #f6a636,
+  800: #f6a636,
+  900: #f6a636,
+  A100: #f6a636,
+  A200: #f6a636,
+  A400: #f6a636,
+  A700: #f6a636,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: white,
+  )
+);
+$crimson-palette: (
+  50: #A73121,
+  100: #A73121,
+  200: #A73121,
+  300: #A73121,
+  400: #A73121,
+  500: #A73121,
+  600: #A73121,
+  700: #A73121,
+  800: #A73121,
+  900: #A73121,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+$bluesky-primary: mat.define-palette($bright-navy-blue-palette, 700, 300, 900);
+$bluesky-accent: mat.define-palette($gainsboro-palette, 300, 100, 500);
+$bluesky-warn: mat.define-palette($crimson-palette, 700);
+$bluesky-theme: mat.define-light-theme((
+  color: (
+    primary: $bluesky-primary,
+    accent: $bluesky-accent,
+    warn: $bluesky-warn,
+  )
+));
+@include mat.all-component-themes($bluesky-theme);
