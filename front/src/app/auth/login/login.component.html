@@ -1,1 +1,15 @@
-<p>login works!</p>
+<app-layout title="Se connecter">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" class="flex flex-col w-5/6 pt-5 laptop:w-2/6" >
+    <label>E-mail ou nom d’utilisateur</label>
+    <mat-form-field>
+      <input matInput formControlName="email" type="text">
+    </mat-form-field>
+    <label>Mot de passe</label>
+    <mat-form-field>
+      <input matInput formControlName="password" type="password">
+    </mat-form-field>
+    <div class="flex justify-center pt-5">
+      <button mat-raised-button color="primary" class="w-1/2" type="submit">Se connecter</button>
+    </div>
+  </form>
+</app-layout>
