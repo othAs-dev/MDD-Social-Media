@@ -19,6 +19,10 @@ export default [
         path: 'user-profil',
         loadComponent: () => import('./user-profil/user-profil.component'),
       },
+      {
+        path: 'theme',
+        loadComponent: () => import('./theme/theme.component'),
+      },
     ],
   },
   {
