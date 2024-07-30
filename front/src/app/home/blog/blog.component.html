@@ -1,0 +1,12 @@
+<button class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow hover:bg-indigo-700">
+  Créer un article
+</button>
+
+<div class="mt-6">
+  <h2 class="text-lg font-semibold mb-2">Trier par <span>↓</span></h2>
+  <div *ngFor="let article of articles" class="p-4 mb-4 bg-gray-100 rounded-md shadow-sm">
+    <h3 class="font-semibold">Titre de l'article</h3>
+    <p class="text-sm text-gray-600">Date: {{ article.date }} | Auteur: {{ article.auteur }}</p>
+    <p class="mt-2">{{ article.content }}</p>
+  </div>
+</div>
