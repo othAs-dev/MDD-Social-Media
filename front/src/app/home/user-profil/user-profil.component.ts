@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import { UserProfilService } from './user-profil.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-profil',
@@ -12,9 +13,10 @@ import { UserProfilService } from './user-profil.service';
   styleUrl: './user-profil.component.scss'
 })
 export default class UserProfilComponent {
-  private readonly __userProfilService: UserProfilService = inject(UserProfilService);
-
+  private readonly _userProfilService: UserProfilService = inject(UserProfilService);
+  private readonly _snackBar: MatSnackBar = inject(MatSnackBar);
   protected logout(): void {
-    this.__userProfilService.logout();
+    this._userProfilService.logout();
+    this._snackBar.open('Déconnexion réussie');
   }
 }

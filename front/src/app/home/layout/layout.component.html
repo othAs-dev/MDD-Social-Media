@@ -27,7 +27,7 @@
 
     <div class="pb-4" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''">
       <div class="flex w-full justify-between items-center">
-        <img src="assets/logo.png" alt="logo" class="w-40"/>
+        <img src="assets/logo.png" alt="logo" class="w-40 cursor-pointer" routerLink="./blog"/>
         <div class="mr-3 laptop:hidden">
           <mat-icon (click)="isSidebarOpen$.next(true)">menu</mat-icon>
         </div>

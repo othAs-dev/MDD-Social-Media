@@ -8,7 +8,8 @@ import {LayoutComponent} from "../layout/layout.component";
 import {LoginService} from "./login.service";
 import {Login} from "./models/login.model";
 import {AccessToken} from "@app/auth/models/accessToken.model";
-import { Router } from "@angular/router";
+import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -30,6 +31,8 @@ import { Router } from "@angular/router";
 export default class LoginComponent {
   private readonly _loginService: LoginService = inject(LoginService)
   private readonly _router: Router = inject(Router);
+  private readonly _snackBar: MatSnackBar = inject(MatSnackBar);
+
 
   protected loginForm: FormGroup = new FormGroup({
     userOrEmail: new FormControl('', [Validators.required]),
@@ -38,11 +41,14 @@ export default class LoginComponent {
 
   protected login(credentials: Login): void {
     if (this.loginForm.valid) {
-     this._loginService.login(credentials).subscribe((res: AccessToken) => {
-       sessionStorage.setItem('token', res.token);
-       this._router.navigate(['/blog']);
-     }, (error) => {console.log(error)}
-       );
+      this._loginService.login(credentials).subscribe((res: AccessToken) => {
+          sessionStorage.setItem('token', res.token);
+          this._snackBar.open('Bonjour !');
+          this._router.navigate(['/blog']);
+        }, (error) => {
+          this._snackBar.open('Authentification échouée');
+        }
+      );
     }
   }
 }

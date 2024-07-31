@@ -9,6 +9,6 @@ export class RegisterService {
   private _http: HttpClient = inject(HttpClient);
 
   public register(credentials: Register): Observable<AccessToken> {
-    return this._http.post<AccessToken>('http://localhost:3001/api/auth/register', credentials);
+    return this._http.post<AccessToken>('api/auth/register', credentials);
   }
 }

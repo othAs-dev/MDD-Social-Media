@@ -9,6 +9,6 @@ export class LoginService {
   private _http: HttpClient = inject(HttpClient);
 
   public login(credentials: Login): Observable<AccessToken> {
-    return this._http.post<AccessToken>('http://localhost:3001/api/auth/login', credentials);
+    return this._http.post<AccessToken>('api/auth/login', credentials);
   }
 }
