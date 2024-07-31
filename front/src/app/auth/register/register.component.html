@@ -1,8 +1,8 @@
 <app-layout title="Se connecter">
-  <form [formGroup]="registerForm" (ngSubmit)="register()" class="flex flex-col w-5/6 pt-5 laptop:w-2/6" >
+  <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)" class="flex flex-col w-5/6 pt-5 laptop:w-2/6" >
     <label>Nom d’utilisateur</label>
     <mat-form-field>
-      <input matInput formControlName="username" type="text">
+      <input matInput formControlName="name" type="text">
     </mat-form-field>
     <label>Adresse e-mail</label>
     <mat-form-field>
@@ -13,7 +13,7 @@
       <input matInput formControlName="password" type="password">
     </mat-form-field>
     <div class="flex justify-center pt-5">
-      <button mat-raised-button color="primary" class="w-1/2" type="submit">S'inscrire</button>
+      <button mat-raised-button color="primary" class="w-1/2" type="submit" [disabled]="registerForm.invalid">S'inscrire</button>
     </div>
   </form>
 </app-layout>
