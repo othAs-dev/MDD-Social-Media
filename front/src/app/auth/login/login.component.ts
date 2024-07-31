@@ -39,10 +39,7 @@ export default class LoginComponent {
     console.log(credentials);
     if (this.loginForm.valid) {
       this._loginService.login(credentials).subscribe({
-        next: () => {
-          this._snackBar.open('Authentification réussie');
-          this._router.navigate(['/blog']);
-        },
+        next: () => this._router.navigate(['/blog']),
         error: () => this._snackBar.open('Authentification échouée')
       });
     }
