@@ -1,7 +1,7 @@
 package org.openclassrooms.mdd.security.service;
 
 import org.openclassrooms.mdd.exceptions.ApiException;
-import org.openclassrooms.mdd.security.utils.EmailValidation;
+import org.openclassrooms.mdd.security.utils.DataValidation;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
 import org.openclassrooms.mdd.user.repository.UserDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class AuthService {
    * @throws ApiException.BadRequestException if the user is not found
    */
   public UserDetailEntity findUserByUsernameOrEmail(String userOrEmail) {
-    boolean isEmail = EmailValidation.isEmail(userOrEmail);
+    boolean isEmail = DataValidation.isEmail(userOrEmail);
     UserDetailEntity userEntity = isEmail ? userDetailRepository.findByEmail(userOrEmail) : userDetailRepository.findByUsername(userOrEmail);
 
     if (userEntity == null) {

@@ -1,5 +1,4 @@
 import {Routes} from "@angular/router";
-import {isLoggedGuard} from "@app/shared/guards/is-logged.guard";
 
 export const routes: Routes = [
   {
@@ -8,7 +7,6 @@ export const routes: Routes = [
       {
         path: 'auth',
         loadChildren: () => import('./auth/auth.routes'),
-        canActivateChild: [isLoggedGuard],
       },
       {
         path: '',
