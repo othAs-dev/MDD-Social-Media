@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ChatopApplication {
+public class MddApplication {
 
-  public static void main(String[] args) { SpringApplication.run(ChatopApplication.class, args);}
+  public static void main(String[] args) { SpringApplication.run(MddApplication.class, args);}
 }
