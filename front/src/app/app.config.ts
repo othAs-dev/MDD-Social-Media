@@ -3,7 +3,12 @@ import {provideRouter, withComponentInputBinding} from '@angular/router';
 
 import { routes } from './app.routes';
 import {provideAnimations} from "@angular/platform-browser/animations";
-import {provideHttpClient} from "@angular/common/http";
+import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/http";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
+import {matsnackbarConfig} from "../../snackbar.config";
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
+import {apiUrlInterceptor} from "@app/shared/apiUrl.interceptor";
+import {environment} from "../environments/environment.local";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,6 +16,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideAnimations(),
     importProvidersFrom(),
-    { provide: LOCALE_ID, useValue: "fr-FR" }
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([(req, next) => apiUrlInterceptor(req, next, environment)])
+    ),
+    { provide: LOCALE_ID, useValue: "fr-FR" },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: matsnackbarConfig, }
   ],
 };
