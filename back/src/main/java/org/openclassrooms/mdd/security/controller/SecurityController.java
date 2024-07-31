@@ -8,6 +8,7 @@ import org.openclassrooms.mdd.exceptions.ApiException;
 import org.openclassrooms.mdd.security.DTO.LoginDTO;
 import org.openclassrooms.mdd.security.DTO.RegisterDTO;
 import org.openclassrooms.mdd.security.service.AuthService;
+import org.openclassrooms.mdd.security.utils.DataValidation;
 import org.openclassrooms.mdd.security.utils.GenerateToken;
 import org.openclassrooms.mdd.user.DTO.UserDetailDTO;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
@@ -36,10 +37,10 @@ public class SecurityController {
   private final AuthService authService;
 
   /**
-   * Authenticates a user and generates a JWT token.
+   * Authenticates a user and generates access and refresh tokens.
    *
    * @param loginRequest the login request containing the user's username or email and password
-   * @return a map containing the generated JWT token
+   * @return a map containing the generated access and refresh tokens
    * @throws ApiException.BadRequestException if the login fails
    */
   @Operation(summary = "This method is used to login")
@@ -56,9 +57,13 @@ public class SecurityController {
       Authentication authentication = authService.authenticateUser(userEntity.getEmail(), password);
       log.info("User authenticated successfully: {}", userEntity.getEmail());
 
-      String jwt = generateToken.generateTokenFunction(authentication);
-      log.info("JWT token generated for user: {}", userEntity.getEmail());
-      return Map.of("token", jwt);
+      // Générer access et refresh tokens
+      String accessToken = generateToken.generateAccessToken(authentication);
+      String refreshToken = generateToken.generateRefreshToken(authentication);
+
+      log.info("JWT tokens generated for user: {}", userEntity.getEmail());
+
+      return Map.of("accessToken", accessToken, "refreshToken", refreshToken);
 
     } catch (ApiException.BadRequestException e) {
       log.error("Login failed for user: {}. Reason: {}", userOrEmail, e.getMessage());
@@ -78,12 +83,17 @@ public class SecurityController {
   public Map<String, String> register(@RequestBody RegisterDTO registerRequest) {
     log.info("Registration attempt for email: {}", registerRequest.getEmail());
 
+    if (!DataValidation.isPasswordCorrect(registerRequest.getPassword())) {
+      log.error("Invalid password format for email: {}", registerRequest.getEmail());
+      throw new ApiException.BadRequestException("Password does not meet complexity requirements.");
+    }
+
     try {
       userService.addNewUser(registerRequest.getName(), registerRequest.getPassword(), registerRequest.getEmail());
       Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(registerRequest.getEmail(), registerRequest.getPassword())
+              new UsernamePasswordAuthenticationToken(registerRequest.getEmail(), registerRequest.getPassword())
       );
-      String jwt = generateToken.generateTokenFunction(authentication);
+      String jwt = generateToken.generateAccessToken(authentication);
       log.info("JWT token generated for new user: {}", registerRequest.getEmail());
       return Map.of("token", jwt);
     } catch (Exception e) {
@@ -111,6 +121,31 @@ public class SecurityController {
     }
     log.info("User details retrieved successfully for email: {}", email);
     return ResponseEntity.ok().body(UserDetailMapper.toDTO(userEntity));
+  }
+
+  /**
+   * Refreshes the access token using a refresh token.
+   *
+   * @param request the request containing the refresh token
+   * @return a map containing the new access token
+   * @throws ApiException.BadRequestException if the refresh fails
+   */
+  @Operation(summary = "This method is used to refresh the access token")
+  @PostMapping("/refresh-token")
+  public Map<String, String> refreshToken(@RequestBody Map<String, String> request) {
+    String refreshToken = request.get("refreshToken");
+    log.info("Refreshing access token using refresh token");
+
+    try {
+      String newAccessToken = generateToken.refreshAccessToken(refreshToken);
+      log.info("Access token refreshed successfully");
+
+      return Map.of("accessToken", newAccessToken);
+
+    } catch (Exception e) {
+      log.error("Token refresh failed. Reason: {}", e.getMessage());
+      throw new ApiException.BadRequestException("Failed to refresh token: " + e.getMessage());
+    }
   }
 }
 
