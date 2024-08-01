@@ -1,21 +1,21 @@
 import { Routes } from '@angular/router';
-import HomeComponent from "./home.component";
-import {authGuard} from "@app/config/guards/auth.guard";
+import HomeComponent from './home.component';
+import { authGuard } from '@app/config/guards/auth.guard';
 
 export default [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard], // Authentication guard for the home route
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'article',
+        redirectTo: 'article', // Redirects to 'articles' by default
       },
       {
         path: 'article',
-        loadChildren: () => import('@app/home/article/article.routes'),
+        loadChildren: () => import('@app/home/article/article.routes'), // Lazy loading articles module
       },
       {
         path: 'user-profil',
@@ -28,8 +28,7 @@ export default [
     ],
   },
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'article'
+    path: '**',
+    redirectTo: '', // Global fallback redirecting to the home route
   },
 ] as Routes;

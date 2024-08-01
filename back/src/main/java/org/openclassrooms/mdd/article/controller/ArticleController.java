@@ -9,6 +9,8 @@ import org.openclassrooms.mdd.article.entity.ArticleEntity;
 import org.openclassrooms.mdd.article.mapper.ArticleMapper;
 import org.openclassrooms.mdd.article.service.ArticleService;
 import org.openclassrooms.mdd.exceptions.ApiException;
+import org.openclassrooms.mdd.topic.entity.TopicEntity;
+import org.openclassrooms.mdd.topic.service.TopicService;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
 import org.openclassrooms.mdd.user.repository.UserDetailRepository;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,8 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final UserDetailRepository userDetailRepository;
-    private final ArticleMapper articleMapper; // Inject the mapper
+    private final ArticleMapper articleMapper;
+    private final TopicService topicService;
 
     @Operation(summary = "This method is used to create a new article")
     @PostMapping
@@ -43,12 +46,15 @@ public class ArticleController {
         }
 
         // Ensure the topic exists
-        if (articleDTO.getTopicId() == null) {
-            log.error("Topic ID must be provided");
-            throw new ApiException.BadRequestException("Topic ID must be provided");
+        if (articleDTO.getTopicTitle() == null) {
+            log.error("Topic Title must be provided");
+            throw new ApiException.BadRequestException("Topic Title must be provided");
         }
 
-        ArticleEntity article = articleService.createArticle(articleDTO.getTopicId(), author.getId(), articleDTO);
+        // Convert topic title to topic entity, assuming you have a method to get the topic by title
+        TopicEntity topic = topicService.getTopicByTitle(articleDTO.getTopicTitle());
+
+        ArticleEntity article = articleService.createArticle(topic.getId(), author.getId(), articleDTO);
         ArticleDTO createdArticleDTO = articleMapper.toDto(article); // Use the injected mapper
         log.info("Article created successfully: {}", articleDTO.getTitle());
         return ResponseEntity.ok(createdArticleDTO);

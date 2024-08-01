@@ -10,7 +10,10 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 import {apiUrlInterceptor} from "@app/config/interceptors/apiUrl.interceptor";
 import {environment} from "../environments/environment.local";
 import {authInterceptor} from "@app/config/interceptors/auth.interceptor";
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+registerLocaleData(localeFr);
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),

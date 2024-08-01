@@ -12,4 +12,6 @@ public interface TopicService {
     void updateTopic(TopicEntity topic);
     List<TopicEntity> getAllTopics();
     void deleteTopicById(UUID id);
+
+    TopicEntity getTopicByTitle(String title);
 }

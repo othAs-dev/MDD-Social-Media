@@ -1,8 +1,10 @@
 export interface Article {
   id: string;
   title: string;
-  content: string;
-  topicId: string;
+  description: string;
+  username: string;
+  createdAt: string;
+  topicTitle: string;
 }
 
 export type Articles = Article[];

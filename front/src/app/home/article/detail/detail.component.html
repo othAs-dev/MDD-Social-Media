@@ -1,1 +1,22 @@
-<p>detail works!</p>
+<div class="p-5">
+  <div class="w-full flex flex-row gap-5">
+    <button mat-icon-button aria-label="icon button with left arrow" routerLink="../article">
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <h1 class="font-bold text-2xl">{{ article.title }}</h1>
+  </div>
+
+  <div class="w-full p-3 flex flex-col gap-5 justify-center">
+    <div class="w-full flex flex-row gap-5 mb-5">
+      <p class="text-xl">{{ article.createdAt | date: 'dd/MM/yyyy' }}</p>
+      <p class="text-xl">{{ article.username }}</p>
+      <p class="text-xl">{{ article.topicTitle }}</p>
+    </div>
+    <div class="w-full flex-col gap-5">
+      <p>
+        {{ article.description }}
+      </p>
+      <hr class="border-black w-full mt-5 mb-5"/>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,45 @@
-<p>create works!</p>
+<div class="w-full p-3">
+  <button mat-icon-button aria-label="icon button with left arrow" routerLink="../article">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </button>
+</div>
+
+<div class="flex flex-col items-center w-full gap-5 mb-3">
+  <h1 class="text-2xl font-bold">Créer un nouvel article</h1>
+  <form [formGroup]="articleForm" (ngSubmit)="createArticle(articleForm.value)" class="flex flex-col w-5/6 pt-5 laptop:w-2/6">
+    <mat-form-field>
+      <mat-select formControlName="topicTitle" placeholder="Sélectionner un thème">
+        <mat-option *ngFor="let topic of topics$ | async" [value]="topic.title">{{ topic.title }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="articleForm.get('topicTitle')!.hasError('required')">
+        un thème est requis.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="title" type="text" placeholder="Titre de l'article">
+      <mat-error *ngIf="articleForm.get('title')!.hasError('required')">
+        un titre est requis.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea matInput formControlName="description" placeholder="Description de l'article"></textarea>
+      <mat-error *ngIf="articleForm.get('description')!.hasError('required')">
+        un contenu est requis.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="flex justify-center pt-5">
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-1/2"
+        type="submit"
+        [disabled]="articleForm.invalid"
+      >
+        Créer
+      </button>
+    </div>
+  </form>
+</div>

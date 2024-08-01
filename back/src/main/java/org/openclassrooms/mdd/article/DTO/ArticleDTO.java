@@ -12,9 +12,8 @@ public class ArticleDTO {
     private UUID id;
     private String title;
     private String description;
-    private UUID topicId;
-    private UUID authorId;
+    private String topicTitle;
+    private String username;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
 }

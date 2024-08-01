@@ -93,4 +93,7 @@ public class TopicServiceImpl implements TopicService {
      * */
     @Override
     public void updateTopic(TopicEntity topic) { topicRepository.save(topic); }
+
+    @Override
+    public TopicEntity getTopicByTitle(String title) {return topicRepository.findByTitle(title);}
 }
