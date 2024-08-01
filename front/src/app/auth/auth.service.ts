@@ -1,42 +1,53 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import {Login} from "@app/auth/login/models/login.model";
 
-@Injectable({ providedIn: 'root' })
+export interface LoginResponse {
+  accessToken: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  private readonly _http: HttpClient = inject(HttpClient);
-  private readonly _cookieService: CookieService = inject(CookieService);
-  private readonly _router: Router = inject(Router);
-  public logout(): void {
-    localStorage.removeItem('accessToken');
-    this._cookieService.delete('refreshToken');
-    this._router.navigate(['/auth']);
+  private apiUrl = 'api/auth';
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasValidAccessToken());
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  login(credentials:Login): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(response => this.handleLoginResponse(response)),
+      catchError(error => {
+        console.error('Login failed', error);
+        throw error;
+      })
+    );
   }
 
-  public getAccessToken(): Observable<string | null> {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      return of(accessToken);
-    }
+  private handleLoginResponse(response: LoginResponse): void {
+    localStorage.setItem('accessToken', response.accessToken);
+    this.isAuthenticatedSubject.next(true);
+  }
 
-    const refreshToken = this._cookieService.get('refreshToken');
-    if (refreshToken) {
-      return this._http.post<{ accessToken: string }>('api/auth/refresh-token', { refreshToken })
-        .pipe(
-          switchMap(response => {
-            localStorage.setItem('accessToken', response.accessToken);
-            return of(response.accessToken);
-          }),
-          catchError(() => {
-            this.logout();
-            return of(null);
-          })
-        );
-    } else {
-      return of(null);
-    }
+  logout(): void {
+    localStorage.removeItem('accessToken');
+    this.isAuthenticatedSubject.next(false);
+    this.router.navigate(['/auth/login']);
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem('accessToken');
+  }
+
+  hasValidAccessToken(): boolean {
+    return !!this.getAccessToken();
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    return this.isAuthenticatedSubject.asObservable();
   }
 }

@@ -37,10 +37,10 @@ public class SecurityController {
   private final AuthService authService;
 
   /**
-   * Authenticates a user and generates access and refresh tokens.
+   * Authenticates a user and generates access token.
    *
    * @param loginRequest the login request containing the user's username or email and password
-   * @return a map containing the generated access and refresh tokens
+   * @return a map containing the generated access token
    * @throws ApiException.BadRequestException if the login fails
    */
   @Operation(summary = "This method is used to login")
@@ -57,13 +57,12 @@ public class SecurityController {
       Authentication authentication = authService.authenticateUser(userEntity.getEmail(), password);
       log.info("User authenticated successfully: {}", userEntity.getEmail());
 
-      // Générer access et refresh tokens
+      // Générer access token uniquement
       String accessToken = generateToken.generateAccessToken(authentication);
-      String refreshToken = generateToken.generateRefreshToken(authentication);
 
-      log.info("JWT tokens generated for user: {}", userEntity.getEmail());
+      log.info("JWT token generated for user: {}", userEntity.getEmail());
 
-      return Map.of("accessToken", accessToken, "refreshToken", refreshToken);
+      return Map.of("accessToken", accessToken);
 
     } catch (ApiException.BadRequestException e) {
       log.error("Login failed for user: {}. Reason: {}", userOrEmail, e.getMessage());
@@ -123,28 +122,4 @@ public class SecurityController {
     return ResponseEntity.ok().body(UserDetailMapper.INSTANCE.toDTO(userEntity));
   }
 
-  /**
-   * Refreshes the access token using a refresh token.
-   *
-   * @param request the request containing the refresh token
-   * @return a map containing the new access token
-   * @throws ApiException.BadRequestException if the refresh fails
-   */
-  @PostMapping("/refresh-token")
-  public Map<String, String> refreshToken(@RequestBody Map<String, String> request) {
-    String refreshToken = request.get("refreshToken");
-    log.info("Refreshing access token using refresh token");
-
-    try {
-      String newAccessToken = generateToken.refreshAccessToken(refreshToken);
-      log.info("Access token refreshed successfully");
-
-      return Map.of("accessToken", newAccessToken);
-
-    } catch (ApiException.BadRequestException e) {
-      log.error("Token refresh failed. Reason: {}", e.getMessage());
-      throw e;
-    }
-  }
 }
-

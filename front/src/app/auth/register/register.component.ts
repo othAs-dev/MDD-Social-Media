@@ -42,10 +42,13 @@ export default class RegisterComponent {
     if (this.registerForm.valid) {
       this._registerService.register(credentials).subscribe({
         next: () => {
-          this._snackBar.open('Inscription réussie');
-          this._router.navigate(['/blog']);
+          this._snackBar.open('Login successful!', 'Close', { duration: 3000 });
+          this._router.navigate(['/']); // Navigate to home or dashboard after login
         },
-        error: () => this._snackBar.open('Inscription échouée')
+        error: (error) => {
+          this._snackBar.open('Login failed. Please check your credentials.', 'Close', { duration: 3000 });
+          console.error('Login error:', error);
+        }
       });
     }
   }
