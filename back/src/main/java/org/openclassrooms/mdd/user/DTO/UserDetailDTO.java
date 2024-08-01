@@ -12,7 +12,7 @@ import java.util.UUID;
 public class UserDetailDTO {
 
   private UUID id;
-  private String name;
+  private String username;
   private String email;
   private LocalDateTime created_at;
   private LocalDateTime updated_at;
