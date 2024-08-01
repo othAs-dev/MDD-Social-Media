@@ -41,7 +41,7 @@ public class UserDetailController {
       Optional<UserDetailEntity> userOptional = userDetailRepository.findById(UUID.fromString(id));
       if (userOptional.isPresent()) {
         UserDetailEntity userEntity = userOptional.get();
-        UserDetailDTO userDTO = UserDetailMapper.toDTO(userEntity);
+        UserDetailDTO userDTO = UserDetailMapper.INSTANCE.toDTO(userEntity);
         return ResponseEntity.ok(userDTO);
       } else {
         throw new ApiException.NotFoundException("User not found");

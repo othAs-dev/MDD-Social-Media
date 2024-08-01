@@ -120,7 +120,7 @@ public class SecurityController {
       throw new ApiException.NotFoundException("User not found");
     }
     log.info("User details retrieved successfully for email: {}", email);
-    return ResponseEntity.ok().body(UserDetailMapper.toDTO(userEntity));
+    return ResponseEntity.ok().body(UserDetailMapper.INSTANCE.toDTO(userEntity));
   }
 
   /**

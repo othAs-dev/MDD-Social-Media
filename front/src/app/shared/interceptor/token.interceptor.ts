@@ -4,7 +4,7 @@ import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwE
 import {AuthService} from "@app/auth/auth.service";
 
 @Injectable({ providedIn: 'root' })
-export class TokenInterceptorService implements HttpInterceptor {
+export class TokenInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _authService: AuthService = inject(AuthService);
