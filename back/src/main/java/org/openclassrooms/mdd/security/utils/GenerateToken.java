@@ -20,7 +20,7 @@ public class GenerateToken {
   private final JwtEncoder jwtEncoder;
 
   // Durée de validité des tokens en minutes
-  private static final int ACCESS_TOKEN_VALIDITY= 1;
+  private static final int ACCESS_TOKEN_VALIDITY= 1440;
 
   /**
    * Générer un token d'accès pour l'utilisateur.

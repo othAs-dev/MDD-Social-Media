@@ -7,8 +7,8 @@ import { NgIf } from '@angular/common';
 import { LayoutComponent } from '../layout/layout.component';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '@app/auth/auth.service';
 import {Login} from "@app/auth/login/models/login.model";
+import {LoginService} from "@app/auth/login/login.service";
 
 @Component({
   selector: 'app-login',
@@ -28,7 +28,7 @@ import {Login} from "@app/auth/login/models/login.model";
 export default class LoginComponent {
   private readonly _router: Router = inject(Router);
   private readonly _snackBar: MatSnackBar = inject(MatSnackBar);
-  private readonly authService: AuthService = inject(AuthService);
+  private readonly _loginService: LoginService = inject(LoginService);
 
   protected loginForm: FormGroup = new FormGroup({
     userOrEmail: new FormControl('', [Validators.required]),
@@ -37,7 +37,7 @@ export default class LoginComponent {
 
   protected login(credentials: Login): void {
     if (this.loginForm.valid) {
-      this.authService.login(credentials).subscribe({
+      this._loginService.login(credentials).subscribe({
         next: () => {
           this._snackBar.open('Login successful!', 'Close', { duration: 3000 });
           this._router.navigate(['/']); // Navigate to home or dashboard after login

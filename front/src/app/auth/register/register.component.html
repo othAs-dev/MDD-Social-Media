@@ -2,8 +2,8 @@
   <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)" class="flex flex-col w-5/6 pt-5 laptop:w-2/6">
     <label>Nom d’utilisateur</label>
     <mat-form-field>
-      <input matInput formControlName="name" type="text">
-      <mat-error *ngIf="registerForm.get('name')!.hasError('required')">
+      <input matInput formControlName="username" type="text">
+      <mat-error *ngIf="registerForm.get('username')!.hasError('required')">
         Le nom d'utilisateur est requis.
       </mat-error>
     </mat-form-field>

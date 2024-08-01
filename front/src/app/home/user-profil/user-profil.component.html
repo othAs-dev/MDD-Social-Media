@@ -1,2 +1,11 @@
 <p>user-profil works!</p>
 <button mat-stroked-button color="primary" (click)="logout()">Se déconnecter</button>
+
+
+@if(userDetails$ | async; as user) {
+  <div>
+    <p>{{user.id}}</p>
+    <p>{{user.username}}</p>
+    <p>{{user.email}}</p>
+  </div>
+}

@@ -88,13 +88,13 @@ public class SecurityController {
     }
 
     try {
-      userService.addNewUser(registerRequest.getName(), registerRequest.getPassword(), registerRequest.getEmail());
+      userService.addNewUser(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getEmail());
       Authentication authentication = authenticationManager.authenticate(
               new UsernamePasswordAuthenticationToken(registerRequest.getEmail(), registerRequest.getPassword())
       );
       String jwt = generateToken.generateAccessToken(authentication);
       log.info("JWT token generated for new user: {}", registerRequest.getEmail());
-      return Map.of("token", jwt);
+      return Map.of("accessToken", jwt);
     } catch (Exception e) {
       log.error("Registration failed for email: {}. Reason: {}", registerRequest.getEmail(), e.getMessage());
       throw new ApiException.BadRequestException("Failed to register user the error is: " + e.getMessage());
@@ -121,5 +121,4 @@ public class SecurityController {
     log.info("User details retrieved successfully for email: {}", email);
     return ResponseEntity.ok().body(UserDetailMapper.INSTANCE.toDTO(userEntity));
   }
-
 }
