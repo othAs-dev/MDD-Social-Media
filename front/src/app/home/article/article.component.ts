@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 import {Articles} from "@app/home/article/article.model";
 import {ArticleService} from "@app/home/article/article.service";
 import {RouterLink} from "@angular/router";
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-article',
@@ -24,5 +25,5 @@ import {RouterLink} from "@angular/router";
 })
 export default class ArticleComponent {
   private readonly _articleService: ArticleService = inject(ArticleService);
-  protected articles$: Observable<Articles> = this._articleService.getArticles();
+  protected articles$: Observable<Articles> = this._articleService.getArticles().pipe(tap(console.log));
 }

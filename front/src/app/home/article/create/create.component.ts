@@ -12,6 +12,7 @@ import {Topics} from "@app/home/topic/topic.model";
 import {TopicService} from '@app/home/topic/topic.service';
 import {CreateArticleService} from "@app/home/article/create/create-article.service";
 import {MatOption, MatSelect} from "@angular/material/select";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create',
@@ -39,6 +40,7 @@ export default class CreateComponent {
   private readonly _createArticleService: CreateArticleService = inject(CreateArticleService);
   private readonly _topicService: TopicService = inject(TopicService);
   protected readonly topics$: Observable<Topics> = this._topicService.getTopics();
+  private readonly _snackBar: MatSnackBar = inject(MatSnackBar);
 
   protected articleForm: FormGroup = new FormGroup({
     topicTitle: new FormControl('', [Validators.required]),
@@ -47,6 +49,14 @@ export default class CreateComponent {
   });
 
   protected createArticle(article: Article): void {
-    this._createArticleService.createArticle(article).pipe(take(1)).subscribe();
+    this._createArticleService.createArticle(article).pipe(take(1)).subscribe({
+      next: () => {
+        this.articleForm.reset();
+        this._snackBar.open('Article ajouté avec succès', 'Fermer');
+      },
+      error: () => {
+        this._snackBar.open('Une erreur est survenue lors de la création de l\'article', 'Fermer');
+      }
+    });
   }
 }

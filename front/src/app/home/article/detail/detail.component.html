@@ -1,5 +1,5 @@
 <div class="p-5">
-  <div class="w-full flex flex-row gap-5">
+  <div class="w-full flex flex-row gap-5 items-center">
     <button mat-icon-button aria-label="icon button with left arrow" routerLink="../article">
       <mat-icon>keyboard_backspace</mat-icon>
     </button>
@@ -17,6 +17,8 @@
         {{ article.description }}
       </p>
       <hr class="border-black w-full mt-5 mb-5"/>
+      <h2 class="text-2xl">Commentaires</h2>
+      <app-comment [articleId]="article.id" [comments]="article.comments"/>
     </div>
   </div>
 </div>

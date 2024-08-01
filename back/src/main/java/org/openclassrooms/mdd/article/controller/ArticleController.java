@@ -8,6 +8,9 @@ import org.openclassrooms.mdd.article.DTO.ArticleDTO;
 import org.openclassrooms.mdd.article.entity.ArticleEntity;
 import org.openclassrooms.mdd.article.mapper.ArticleMapper;
 import org.openclassrooms.mdd.article.service.ArticleService;
+import org.openclassrooms.mdd.comment.DTO.CommentDTO;
+import org.openclassrooms.mdd.comment.entity.CommentEntity;
+import org.openclassrooms.mdd.comment.service.CommentService;
 import org.openclassrooms.mdd.exceptions.ApiException;
 import org.openclassrooms.mdd.topic.entity.TopicEntity;
 import org.openclassrooms.mdd.topic.service.TopicService;
@@ -32,6 +35,7 @@ public class ArticleController {
     private final UserDetailRepository userDetailRepository;
     private final ArticleMapper articleMapper;
     private final TopicService topicService;
+    private final CommentService commentService;
 
     @Operation(summary = "This method is used to create a new article")
     @PostMapping
@@ -86,5 +90,33 @@ public class ArticleController {
                 .collect(Collectors.toList());
         log.info("Articles for user {} retrieved successfully", authenticatedEmail);
         return ResponseEntity.ok(articleDTOs);
+    }
+
+    @Operation(summary = "This method is used to add a comment to an article")
+    @PostMapping("/{id}/comments")
+    public ResponseEntity<CommentDTO> addComment(@PathVariable UUID id, @RequestBody CommentDTO commentDTO, Authentication authentication) {
+        // Retrieve authenticated user
+        String authenticatedEmail = authentication.getName();
+        UserDetailEntity author = userDetailRepository.findByEmail(authenticatedEmail);
+
+        if (author == null) {
+            log.error("User not found for email: {}", authenticatedEmail);
+            throw new ApiException.NotFoundException("User not found");
+        }
+
+        // Set the article ID in the commentDTO
+        commentDTO.setArticleId(id);
+
+        CommentDTO createdCommentDTO = commentService.addComment(id, author.getId(), commentDTO);
+        log.info("Comment added successfully: {}", commentDTO.getContent());
+        return ResponseEntity.ok(createdCommentDTO);
+    }
+
+    @Operation(summary = "This method is used to get all comments for an article")
+    @GetMapping("/{id}/comments")
+    public ResponseEntity<List<CommentDTO>> getCommentsByArticleId(@PathVariable UUID id) {
+        List<CommentDTO> comments = commentService.getCommentsByArticleId(id);
+        log.info("Comments for article {} retrieved successfully", id);
+        return ResponseEntity.ok(comments);
     }
 }

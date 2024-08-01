@@ -8,7 +8,12 @@ import org.openclassrooms.mdd.topic.entity.TopicEntity;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+// ... other imports
+import org.openclassrooms.mdd.comment.entity.CommentEntity;
 
 @Getter
 @Setter
@@ -16,7 +21,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "article") // Corrected table name
+@Table(name = "article")
 public class ArticleEntity {
 
     @Id
@@ -37,6 +42,9 @@ public class ArticleEntity {
     @ManyToOne
     @JoinColumn(name = "topic_id")
     private TopicEntity topic;
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentEntity> comments = new ArrayList<>();  // Add this line
 
     @Column(updatable = false)
     @CreationTimestamp
