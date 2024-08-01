@@ -130,7 +130,6 @@ public class SecurityController {
    * @return a map containing the new access token
    * @throws ApiException.BadRequestException if the refresh fails
    */
-  @Operation(summary = "This method is used to refresh the access token")
   @PostMapping("/refresh-token")
   public Map<String, String> refreshToken(@RequestBody Map<String, String> request) {
     String refreshToken = request.get("refreshToken");
@@ -142,9 +141,9 @@ public class SecurityController {
 
       return Map.of("accessToken", newAccessToken);
 
-    } catch (Exception e) {
+    } catch (ApiException.BadRequestException e) {
       log.error("Token refresh failed. Reason: {}", e.getMessage());
-      throw new ApiException.BadRequestException("Failed to refresh token: " + e.getMessage());
+      throw e;
     }
   }
 }

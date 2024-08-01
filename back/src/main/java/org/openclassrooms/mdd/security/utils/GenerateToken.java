@@ -25,8 +25,8 @@ public class GenerateToken {
   private final UserDetailRepository userDetailRepository; // Pour récupérer les détails de l'utilisateur à partir du refresh token
 
   // Durée de validité des tokens en minutes
-  private static final int ACCESS_TOKEN_VALIDITY = 15; // 15 minutes
-  private static final int REFRESH_TOKEN_VALIDITY = 1440; // 24 heures
+  private static final int ACCESS_TOKEN_VALIDITY = 1; // 15 minutes
+  private static final int REFRESH_TOKEN_VALIDITY = 2; // 24 heures
 
   /**
    * Générer un token d'accès pour l'utilisateur.
@@ -57,18 +57,18 @@ public class GenerateToken {
    */
   public String refreshAccessToken(String refreshToken) throws ApiException.BadRequestException {
     try {
-      var jwt = jwtDecoder.decode(refreshToken); // Décoder le refresh token
-      String username = jwt.getSubject();
+      Jwt decodedJwt = jwtDecoder.decode(refreshToken); // Décoder le refresh token
+      String username = decodedJwt.getSubject();
 
-      UserDetailEntity userEntity = userDetailRepository.findByUsername(username);
-
+      // Assurez-vous que l'utilisateur existe
+      UserDetailEntity userEntity = userDetailRepository.findByEmail(username);
       if (userEntity == null) {
         throw new ApiException.BadRequestException("Invalid refresh token");
       }
 
       // Créer une nouvelle authentification à partir de l'utilisateur
       Authentication authentication = new UsernamePasswordAuthenticationToken(
-              userEntity.getUsername(),
+              userEntity.getEmail(), // Utilisez l'email si c'est la clé principale
               userEntity.getPassword(),
               null
       );
@@ -76,10 +76,11 @@ public class GenerateToken {
       // Générer et retourner un nouveau token d'accès
       return generateAccessToken(authentication);
 
-    } catch (Exception e) {
+    } catch (JwtException e) {
       throw new ApiException.BadRequestException("Failed to refresh access token: " + e.getMessage());
     }
   }
+
 
   /**
    * Générer un token JWT.
