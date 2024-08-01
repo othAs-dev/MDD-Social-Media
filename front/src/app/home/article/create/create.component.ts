@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatError, MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -41,7 +41,7 @@ export default class CreateComponent {
   private readonly _topicService: TopicService = inject(TopicService);
   protected readonly topics$: Observable<Topics> = this._topicService.getTopics();
   private readonly _snackBar: MatSnackBar = inject(MatSnackBar);
-
+  private readonly _router: Router = inject(Router);
   protected articleForm: FormGroup = new FormGroup({
     topicTitle: new FormControl('', [Validators.required]),
     title: new FormControl('', [Validators.required]),
@@ -51,7 +51,7 @@ export default class CreateComponent {
   protected createArticle(article: Article): void {
     this._createArticleService.createArticle(article).pipe(take(1)).subscribe({
       next: () => {
-        this.articleForm.reset();
+        this._router.navigate(['/article']);
         this._snackBar.open('Article ajouté avec succès', 'Fermer');
       },
       error: () => {
