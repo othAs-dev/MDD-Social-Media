@@ -5,3 +5,8 @@ export interface UserProfil {
   created_at: string;
   updated_at: string;
 }
+
+export interface UpdateUserProfil {
+  user: UserProfil;
+  accessToken: string;
+}

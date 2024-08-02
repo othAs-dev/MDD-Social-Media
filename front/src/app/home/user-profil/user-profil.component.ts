@@ -1,21 +1,19 @@
-import { Component, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { UserProfilService } from './user-profil.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '@app/auth/auth.service';
-import { Observable, Subject, startWith, switchMap } from 'rxjs';
-import { UserProfil } from '@app/home/user-profil/user-profil.model';
-import { AsyncPipe, NgIf } from '@angular/common';
-import { catchError, tap } from 'rxjs/operators';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatError, MatFormField } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { passwordValidator } from '@app/auth/register/utils/passwordValidator';
-import { TopicCardComponent } from '@app/shared/components/topic-card/topic-card.component';
-import { TopicService } from '@app/home/topic/topic.service';
-import { Topics } from '@app/home/topic/topic.model';
-import { Id } from '@app/shared/models/id.model';
-import { AccessToken } from '@app/auth/models/accessToken.model';
+import {Component, inject} from '@angular/core';
+import {MatButton} from '@angular/material/button';
+import {UserProfilService} from './user-profil.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {AuthService} from '@app/auth/auth.service';
+import {Observable, startWith, Subject, switchMap} from 'rxjs';
+import {UpdateUserProfil, UserProfil} from '@app/home/user-profil/user-profil.model';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {catchError, tap} from 'rxjs/operators';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatError, MatFormField} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {passwordValidator} from '@app/auth/register/utils/passwordValidator';
+import {TopicCardComponent} from '@app/shared/components/topic-card/topic-card.component';
+import {Topics} from '@app/home/topic/topic.model';
+import {Id} from '@app/shared/models/id.model';
 
 @Component({
   selector: 'app-user-profil',
@@ -61,7 +59,7 @@ export default class UserProfilComponent {
   protected save(id: string, credentials: UserProfil): void {
     if (this.userDetailsForm.valid) {
       this._userProfilService.save(id, credentials).subscribe({
-        next: (response: AccessToken) => {
+        next: (response: UpdateUserProfil) => {
           this._snackBar.open('Informations enregistrées avec succès !', 'Fermer');
 
           const newToken = response.accessToken;

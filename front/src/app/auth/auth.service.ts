@@ -32,6 +32,7 @@ export class AuthService {
   }
 
   public updateToken(newToken: string): void {
+    console.log('newToken', newToken)
     localStorage.setItem('accessToken', newToken);
     this._isAuthenticatedSubject.next(true);
   }
