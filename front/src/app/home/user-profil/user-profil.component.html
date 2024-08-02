@@ -45,17 +45,16 @@
 <button mat-button (click)="logout()" color="warn">Se déconnecter</button>
 </div>
   <div class="w-full flex flex-col justify-center mb-3">
-    <hr class=" w-10/12 border-black"/>
+    <hr class=" w-12/12 border-black"/>
     <h1 class="text-2xl font-bold text-center mt-2 mb-2">Abonnements</h1>
   </div>
 
-  @if (topics$ | async;as topics) {
-    <div class="flex flex-wrap justify-center gap-5">
-      @for (topic of topics;track topic.id) {
-        @if(topics.length === 0) {
-          <p>Vous n'êtes abonné à aucun sujet.</p>
-
-        } @else {
+  @if (topics$ | async; as topics) {
+    <div class="flex flex-wrap justify-center gap-5 mb-5">
+      @if (topics.length === 0) {
+        <p>Vous n'êtes abonné à aucun sujet.</p>
+      } @else {
+        @for (topic of topics; track topic.id) {
           <app-topic-card
             [title]="topic.title"
             [description]="topic.description"
@@ -63,13 +62,12 @@
             (manageSubscription)="unsubscribeToTopic(topic.id, topic.title)"
             [isSubscribed]="false"
           />
-
         }
       }
     </div>
   } @else {
     <div class="flex justify-center w-full">
-      <p>Un probleme est surevenu</p>
+      <p>Un problème est survenu</p>
     </div>
   }
 }
