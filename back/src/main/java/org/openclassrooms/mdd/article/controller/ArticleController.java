@@ -28,6 +28,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final UserDetailRepository userDetailRepository;
+    private final ArticleMapper articleMapper; // Inject the mapper
 
     @Operation(summary = "This method is used to create a new article")
     @PostMapping
@@ -48,7 +49,7 @@ public class ArticleController {
         }
 
         ArticleEntity article = articleService.createArticle(articleDTO.getTopicId(), author.getId(), articleDTO);
-        ArticleDTO createdArticleDTO = ArticleMapper.INSTANCE.toDTO(article);
+        ArticleDTO createdArticleDTO = articleMapper.toDto(article); // Use the injected mapper
         log.info("Article created successfully: {}", articleDTO.getTitle());
         return ResponseEntity.ok(createdArticleDTO);
     }
@@ -57,7 +58,7 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDTO> getArticleById(@PathVariable UUID id) {
         ArticleEntity article = articleService.getArticleById(id);
-        ArticleDTO articleDTO = ArticleMapper.INSTANCE.toDTO(article);
+        ArticleDTO articleDTO = articleMapper.toDto(article); // Use the injected mapper
         log.info("Article retrieved successfully: {}", article.getTitle());
         return ResponseEntity.ok(articleDTO);
     }
@@ -73,9 +74,9 @@ public class ArticleController {
             throw new ApiException.NotFoundException("User not found");
         }
 
-        List<ArticleEntity> articles = articleService.getArticlesForUser(user);
+        List<ArticleEntity> articles = articleService.getArticlesForUser(user.getEmail());
         List<ArticleDTO> articleDTOs = articles.stream()
-                .map(ArticleMapper.INSTANCE::toDTO)
+                .map(articleMapper::toDto) // Use the injected mapper
                 .collect(Collectors.toList());
         log.info("Articles for user {} retrieved successfully", authenticatedEmail);
         return ResponseEntity.ok(articleDTOs);

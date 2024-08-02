@@ -25,12 +25,13 @@ public class TopicController {
 
     private final TopicService topicService;
     private final UserDetailRepository userDetailRepository;
+    private final TopicMapper topicMapper;
 
     @Operation(summary = "This method is used to create a new topic")
     @PostMapping
     public ResponseEntity<TopicDTO> createTopic(@RequestBody TopicDTO topicDTO) {
         TopicEntity topic = topicService.createTopic(topicDTO);
-        TopicDTO createdTopicDTO = TopicMapper.INSTANCE.toDTO(topic);
+        TopicDTO createdTopicDTO = topicMapper.toDto(topic);
         log.info("Topic created successfully: {}", topicDTO.getTitle());
         return ResponseEntity.ok(createdTopicDTO);
     }
@@ -39,7 +40,7 @@ public class TopicController {
     @GetMapping("/{id}")
     public ResponseEntity<TopicDTO> getTopicById(@PathVariable UUID id) {
         TopicEntity topic = topicService.getTopicById(id);
-        TopicDTO topicDTO = TopicMapper.INSTANCE.toDTO(topic);
+        TopicDTO topicDTO = topicMapper.toDto(topic);
         log.info("Topic retrieved successfully: {}", topic.getTitle());
         return ResponseEntity.ok(topicDTO);
     }
@@ -48,11 +49,9 @@ public class TopicController {
     @GetMapping
     public ResponseEntity<List<TopicDTO>> getAllTopics() {
         List<TopicDTO> topics = topicService.getAllTopics().stream()
-                .map(TopicMapper.INSTANCE::toDTO)
+                .map(topicMapper::toDto) // Use the injected mapper
                 .collect(Collectors.toList());
         log.info("All topics retrieved successfully");
         return ResponseEntity.ok(topics);
     }
-
-
 }

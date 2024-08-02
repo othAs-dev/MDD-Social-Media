@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openclassrooms.mdd.article.DTO.ArticleDTO;
 import org.openclassrooms.mdd.article.entity.ArticleEntity;
+import org.openclassrooms.mdd.article.mapper.ArticleMapper;
 import org.openclassrooms.mdd.article.repository.ArticleRepository;
 import org.openclassrooms.mdd.exceptions.ApiException;
 import org.openclassrooms.mdd.subscription.service.SubscriptionService;
 import org.openclassrooms.mdd.topic.entity.TopicEntity;
-import org.openclassrooms.mdd.topic.repository.TopicRepository;
+import org.openclassrooms.mdd.topic.service.TopicService;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
 import org.openclassrooms.mdd.user.repository.UserDetailRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,27 +25,22 @@ import java.util.UUID;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final TopicRepository topicRepository;
+    private final TopicService topicService;
     private final UserDetailRepository userDetailRepository;
     private final SubscriptionService subscriptionService;
+    private final ArticleMapper articleMapper;
 
     @Override
     public ArticleEntity createArticle(UUID topicId, UUID authorId, ArticleDTO articleDTO) {
-        TopicEntity topic = topicRepository.findById(topicId)
-                .orElseThrow(() -> new ApiException.NotFoundException("Topic not found"));
-
+        TopicEntity topic = topicService.getTopicById(topicId);
         UserDetailEntity author = userDetailRepository.findById(authorId)
                 .orElseThrow(() -> new ApiException.NotFoundException("User not found"));
 
-        ArticleEntity article = ArticleEntity.builder()
-                .title(articleDTO.getTitle())
-                .description(articleDTO.getDescription())
-                .createdAt(LocalDateTime.now())
-                .author(author)
-                .topic(topic)
-                .build();
+        ArticleEntity article = articleMapper.toEntity(articleDTO);
+        article.setTopic(topic);
+        article.setAuthor(author);
 
-        log.info("Article created with success: {}", articleDTO.getTitle());
+        log.info("Article created successfully: {}", articleDTO.getTitle());
         return articleRepository.save(article);
     }
 
@@ -55,10 +50,10 @@ public class ArticleServiceImpl implements ArticleService {
                 .orElseThrow(() -> new ApiException.NotFoundException("Article not found"));
     }
 
-
     @Override
-    public List<ArticleEntity> getArticlesForUser(UserDetailEntity user) {
-        List<TopicEntity> subscribedTopics = subscriptionService.getSubscribedTopics(user);
+    public List<ArticleEntity> getArticlesForUser(String userEmail) {
+        UserDetailEntity user = userDetailRepository.findByEmail(userEmail);
+        List<TopicEntity> subscribedTopics = subscriptionService.getSubscribedTopics(user.getEmail());
         return articleRepository.findByTopicIdIn(subscribedTopics.stream().map(TopicEntity::getId).toList());
     }
 }

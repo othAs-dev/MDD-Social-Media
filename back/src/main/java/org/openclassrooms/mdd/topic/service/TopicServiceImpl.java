@@ -6,6 +6,7 @@ import org.openclassrooms.mdd.exceptions.ApiException;
 import org.openclassrooms.mdd.topic.DTO.TopicDTO;
 import org.openclassrooms.mdd.topic.entity.TopicEntity;
 import org.openclassrooms.mdd.topic.repository.TopicRepository;
+import org.openclassrooms.mdd.topic.mapper.TopicMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +20,12 @@ import java.util.UUID;
 public class TopicServiceImpl implements TopicService {
 
     private final TopicRepository topicRepository;
+    private final TopicMapper topicMapper;
 
     @Override
     public TopicEntity createTopic(TopicDTO topicDTO) {
-        TopicEntity topic = TopicEntity.builder()
-                .title(topicDTO.getTitle())
-                .description(topicDTO.getDescription())
-                .build();
-        log.info("Topic created with success: {}", topicDTO.getTitle());
+        TopicEntity topic = topicMapper.toEntity(topicDTO);
+        log.info("Topic created successfully: {}", topic.getTitle());
         return topicRepository.save(topic);
     }
 
