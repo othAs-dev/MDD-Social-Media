@@ -22,6 +22,21 @@ public class TopicServiceImpl implements TopicService {
     private final TopicRepository topicRepository;
     private final TopicMapper topicMapper;
 
+
+    /**
+     * Create a new topic
+     *
+     * @param topicDTO the topic to create
+     *                 title the title of the topic
+     *                 description the description of the topic
+     *                 createdBy the user who created the topic
+     *                 createdAt the date and time the topic was created
+     *                 updatedAt the date and time the topic was last updated
+     *                 subscribed the subscription status of the topic
+     *
+     *                 @return the created topic
+     *                 * @throws ApiException.BadRequestException if the topic is invalid
+     * */
     @Override
     public TopicEntity createTopic(TopicDTO topicDTO) {
         TopicEntity topic = topicMapper.toEntity(topicDTO);
@@ -30,22 +45,52 @@ public class TopicServiceImpl implements TopicService {
         return topicRepository.save(topic);
     }
 
+    /**
+     *
+     * Get a topic by ID
+     *
+     * @param id the ID of the topic to retrieve
+     *           @return the topic
+     *            * @throws ApiException.NotFoundException if the topic is not found
+     *
+     * */
     @Override
     public TopicEntity getTopicById(UUID id) {
         return topicRepository.findById(id)
                 .orElseThrow(() -> new ApiException.NotFoundException("Topic not found"));
     }
 
+    /**
+     *
+     * Get all topics
+     *
+     * @return the list of topics
+     *
+     * */
     @Override
     public List<TopicEntity> getAllTopics() {
         return topicRepository.findAll();
     }
 
+    /**
+     *
+     * Delete a topic by ID
+     *
+     * @param id the ID of the topic to delete
+     *
+     * */
     @Override
     public void deleteTopicById(UUID id) {
         topicRepository.deleteById(id);
     }
 
+    /**
+     *
+     * Update a topic
+     *
+     * @param topic the topic to update
+     *
+     * */
     @Override
     public void updateTopic(TopicEntity topic) { topicRepository.save(topic); }
 }

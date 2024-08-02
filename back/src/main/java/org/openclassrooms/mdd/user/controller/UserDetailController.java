@@ -30,6 +30,15 @@ public class UserDetailController {
   private final AuthService authService;
   private final GenerateToken generateToken;
 
+  /**
+  * Retrieve user details by ID
+  *
+  * @param id the ID of the user
+  * @return the user details
+  * @throws ApiException.NotFoundException if the user is not found
+  * @throws ApiException.BadRequestException if the ID is invalid
+  *
+  * */
   @Operation(summary = "Retrieve user details by ID")
   @GetMapping("/user/{id}")
   public ResponseEntity<UserDetailDTO> getUserDetailById(@PathVariable String id) {
@@ -47,6 +56,18 @@ public class UserDetailController {
     }
   }
 
+  /**
+  *
+  * Update user details
+  *
+  * @param id the ID of the user
+  * @param userDetailDTO the updated user details
+  * @param authentication the authentication object
+  * @return a map containing the updated user details and access token
+  * @throws ApiException.BadRequestException if the update fails
+  *
+  * */
+
   @Operation(summary = "Update user details")
   @PutMapping("/user/{id}")
   public Map<String, Object> updateUserDetail(
@@ -54,36 +75,33 @@ public class UserDetailController {
           @RequestBody UserDetailDTO userDetailDTO,
           Authentication authentication) {
 
-    // Récupérer l'email de l'utilisateur authentifié
     String authenticatedEmail = authentication.getName();
     UserDetailEntity authenticatedUser = userService.findByEmail(authenticatedEmail);
 
-    // Vérifier que l'utilisateur authentifié est bien celui qui souhaite effectuer la mise à jour
     if (!authenticatedUser.getId().equals(id)) {
       log.error("Unauthorized attempt to update user details for email: {}", authenticatedEmail);
       throw new ApiException.BadRequestException("Unauthorized update attempt");
     }
-
-    // Mettre à jour les détails de l'utilisateur
     UserDetailEntity updatedUser = userService.updateUser(id, userDetailDTO);
-
-    // Générer un nouveau jeton pour l'utilisateur après la mise à jour
     Authentication newAuthentication = authService.authenticateUser(userDetailDTO.getEmail(), userDetailDTO.getPassword());
     String newToken = generateToken.generateAccessToken(newAuthentication);
-
-    // Convertir l'utilisateur mis à jour en DTO
     UserDetailDTO updatedUserDTO = UserDetailMapper.INSTANCE.toDTO(updatedUser);
-
     log.info("User details updated successfully for email: {}", authenticatedEmail);
-
-    // Retourner les nouvelles informations de l'utilisateur et le nouveau jeton
     return Map.of(
             "accessToken", newToken,
             "user", updatedUserDTO
     );
   }
 
-
+  /**
+  *
+  * Retrieve details of the currently authenticated user
+  *
+  * @param authentication the authentication object
+  * @return the user details
+  * @throws ApiException.NotFoundException if the user is not found
+  *
+  * */
   @Operation(summary = "Retrieve details of the currently authenticated user")
   @GetMapping("/me")
   public ResponseEntity<UserDetailDTO> getUserDetails(Authentication authentication) {

@@ -28,6 +28,21 @@ public class TopicController {
     private final TopicMapper topicMapper;
     private final SubscriptionService subscriptionService;
 
+    /**
+     *
+     * Create a new topic
+     *
+     * @param topicDTO the topic to create
+     *                 title the title of the topic
+     *                 description the description of the topic
+     *                 createdBy the user who created the topic
+     *                 createdAt the date and time the topic was created
+     *                 updatedAt the date and time the topic was last updated
+     *                 subscribed the subscription status of the topic
+     *
+     *                 @return the created topic
+     *                 * @throws ApiException.BadRequestException if the topic is invalid
+     * */
     @Operation(summary = "This method is used to create a new topic")
     @PostMapping
     public ResponseEntity<TopicDTO> createTopic(@RequestBody TopicDTO topicDTO) {
@@ -36,6 +51,16 @@ public class TopicController {
         log.info("Topic created successfully: {}", topicDTO.getTitle());
         return ResponseEntity.ok(createdTopicDTO);
     }
+
+    /**
+     *
+     * Get a topic by ID
+     *
+     * @param id the ID of the topic to retrieve
+     *           @return the topic
+     *            * @throws ApiException.NotFoundException if the topic is not found
+     *
+     * */
 
     @Operation(summary = "This method is used to get a topic by id")
     @GetMapping("/{id}")
@@ -46,6 +71,13 @@ public class TopicController {
         return ResponseEntity.ok(topicDTO);
     }
 
+    /**
+     *
+     * Get all topics
+     *
+     * @return a list of all topics
+     *
+     * */
     @Operation(summary = "This method is used to get all topics")
     @GetMapping
     public ResponseEntity<List<TopicDTO>> getAllTopics(Authentication authentication) {
@@ -63,6 +95,13 @@ public class TopicController {
     }
 
 
+    /**
+     *
+     * Get topics subscribed by the current user
+     *
+     * @param authentication the authentication object
+     *                       @return a list of topics subscribed by the current user
+     * */
     @Operation(summary = "This method is used to get topics subscribed by the current user")
     @GetMapping("/my-topics")
     public ResponseEntity<List<TopicDTO>> getSubscribedTopics(Authentication authentication) {
@@ -72,6 +111,7 @@ public class TopicController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(topicDTOs);
     }
+
 
     @Operation(summary = "This method is used to delete a topic by id")
     @DeleteMapping("/{id}")

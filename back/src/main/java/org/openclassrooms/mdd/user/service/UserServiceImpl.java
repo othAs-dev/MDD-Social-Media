@@ -51,6 +51,17 @@ public class UserServiceImpl implements UserService {
     return userDetailRepository.save(userDetailEntity);
   }
 
+  /**
+  *
+   * Update user details
+   *
+   * @param userId the ID of the user
+   * @param userDetailDTO the updated user details
+   * @return the updated user details
+   * @throws ApiException.NotFoundException if the user is not found
+   * @throws ApiException.BadRequestException if the email is already in use
+   *
+  * */
   @Override
   public UserDetailEntity updateUser(UUID userId, UserDetailDTO userDetailDTO) {
     UserDetailEntity existingUser = userDetailRepository.findById(userId)
@@ -88,11 +99,23 @@ public class UserServiceImpl implements UserService {
     return userDetailRepository.findByEmail(email);
   }
 
+    /**
+     * Finds a user by their ID.
+     *
+     * @param userId The ID of the user to find.
+     * @return The user details.
+     */
   @Override
   public Optional<UserDetailEntity> findById(UUID userId) {
     return userDetailRepository.findById(userId);
   }
 
+    /**
+     * Finds a user by their email.
+     *
+     * @param email The email of the user to find.
+     * @return The user details.
+     */
   @Override
   public UserDetailEntity findByEmail(String email) {
     return userDetailRepository.findByEmail(email);

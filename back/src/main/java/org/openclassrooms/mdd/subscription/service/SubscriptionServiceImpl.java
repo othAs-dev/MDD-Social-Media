@@ -22,6 +22,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final UserDetailRepository userDetailRepository;
     private final TopicService topicService;
 
+    /**
+     *
+     * Subscribe to a topic
+     *
+     * @param userEmail the email of the user
+     * @param topicId the ID of the topic
+     * @param isSubscribed the subscription status
+     * */
     @Override
     public void subscribeToTopic(String userEmail, UUID topicId, boolean isSubscribed) {
         UserDetailEntity user = userDetailRepository.findByEmail(userEmail);
@@ -38,6 +46,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscriptionRepository.save(subscription);
     }
 
+    /**
+     *
+     * Get the topics that a user is subscribed to
+     *
+     * @param userEmail the email of the user
+     * @return the list of topics
+     * */
     @Override
     public List<TopicEntity> getSubscribedTopics(String userEmail) {
         UserDetailEntity user = userDetailRepository.findByEmail(userEmail);

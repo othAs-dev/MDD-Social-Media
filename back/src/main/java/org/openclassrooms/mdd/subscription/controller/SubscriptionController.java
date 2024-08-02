@@ -27,6 +27,15 @@ public class SubscriptionController {
     private final TopicMapper topicMapper;
     private final TopicService topicService;
 
+
+    /**
+     *
+     * Subscribe to a topic
+     *
+     * @param topicId the ID of the topic
+     * @param authentication the authentication object
+     * @return the response
+     * */
     @GetMapping("/subscribe")
     public ResponseEntity<Map<String, String>> subscribeToTopic(
             @RequestParam UUID topicId,
@@ -49,6 +58,14 @@ public class SubscriptionController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     *
+     * Unsubscribe from a topic
+     *
+     * @param topicId the ID of the topic
+     * @param authentication the authentication object
+     * @return the response
+     * */
     @GetMapping("/unsubscribe")
     public ResponseEntity<Map<String, String>> unsubscribeFromTopic(
             @RequestParam UUID topicId,
@@ -71,6 +88,13 @@ public class SubscriptionController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     *
+     * Get the topics that a user is subscribed to
+     *
+     * @param authentication the authentication object
+     * @return the list of topics
+     * */
     @GetMapping("/my-topics")
     public ResponseEntity<List<TopicDTO>> getSubscribedTopics(Authentication authentication) {
         List<TopicEntity> topics = subscriptionService.getSubscribedTopics(authentication.getName());
