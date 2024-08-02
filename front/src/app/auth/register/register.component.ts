@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {passwordValidator} from "@app/auth/register/utils/passwordValidator";
 import {NgIf} from "@angular/common";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-register',
@@ -40,7 +41,7 @@ export default class RegisterComponent {
 
   protected register(credentials: Register): void {
     if (this.registerForm.valid) {
-      this._registerService.register(credentials).subscribe({
+      this._registerService.register(credentials).pipe(take(1)).subscribe({
         next: () => {
           this._snackBar.open('Login successful!', 'Close', { duration: 3000 });
           this._router.navigate(['/']); // Navigate to home or dashboard after login
