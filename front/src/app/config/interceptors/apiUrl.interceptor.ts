@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Environment} from "@app/shared/models/environnement.model";
+import {Environment} from "@app/config/models/environnement.model";
 
 export function apiUrlInterceptor(
   req: HttpRequest<unknown>,

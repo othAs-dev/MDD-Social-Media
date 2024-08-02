@@ -7,9 +7,9 @@ import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/ht
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {matsnackbarConfig} from "../../snackbar.config";
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
-import {apiUrlInterceptor} from "@app/shared/interceptor/apiUrl.interceptor";
+import {apiUrlInterceptor} from "@app/config/interceptors/apiUrl.interceptor";
 import {environment} from "../environments/environment.local";
-import {authInterceptor} from "@app/shared/interceptor/auth.interceptor";
+import {authInterceptor} from "@app/config/interceptors/auth.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [

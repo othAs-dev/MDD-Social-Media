@@ -1,4 +1,4 @@
-package org.openclassrooms.mdd.security.DTO;
+package org.openclassrooms.mdd.user.DTO;
 
 import lombok.Data;
 

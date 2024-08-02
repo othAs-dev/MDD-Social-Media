@@ -39,11 +39,11 @@ export default class LoginComponent {
     if (this.loginForm.valid) {
       this._loginService.login(credentials).subscribe({
         next: () => {
-          this._snackBar.open('Login successful!', 'Close', { duration: 3000 });
-          this._router.navigate(['/']); // Navigate to home or dashboard after login
+          this._snackBar.open('Bonjour !');
+          this._router.navigate(['/blog']);
         },
         error: (error) => {
-          this._snackBar.open('Login failed. Please check your credentials.', 'Close', { duration: 3000 });
+          this._snackBar.open('Authentification échoué, verifiez vos informations.');
           console.error('Login error:', error);
         }
       });

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import HomeComponent from "./home.component";
-import {authGuard} from "@app/shared/guards/auth.guard";
+import {authGuard} from "@app/config/guards/auth.guard";
 
 export default [
   {

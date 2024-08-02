@@ -9,7 +9,11 @@ import {UserProfil} from "@app/home/user-profil/user-profil.model";
 export class UserProfilService {
   private _http: HttpClient = inject(HttpClient);
 
-  public getUserProfil(): Observable<UserProfil> {
-    return this._http.get<UserProfil>(`api/auth/me`);
+  public get(): Observable<UserProfil> {
+    return this._http.get<UserProfil>(`api/me`);
+  }
+
+  public save(id: string, userProfil: UserProfil): Observable<UserProfil> {
+    return this._http.put<UserProfil>(`api/user/${id}`, userProfil);
   }
 }

@@ -4,10 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '@app/auth/auth.service';
 
-export const authInterceptor: HttpInterceptorFn = (
-  request: HttpRequest<unknown>,
-  next: HttpHandlerFn
-): Observable<HttpEvent<unknown>> => {
+export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const authService = inject(AuthService);
 
   const accessToken = authService.getAccessToken();

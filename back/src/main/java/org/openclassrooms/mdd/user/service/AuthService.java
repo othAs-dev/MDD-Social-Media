@@ -1,7 +1,7 @@
-package org.openclassrooms.mdd.security.service;
+package org.openclassrooms.mdd.user.service;
 
 import org.openclassrooms.mdd.exceptions.ApiException;
-import org.openclassrooms.mdd.security.utils.DataValidation;
+import org.openclassrooms.mdd.utils.entity.DataValidation;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
 import org.openclassrooms.mdd.user.repository.UserDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;

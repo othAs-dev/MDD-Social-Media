@@ -1,4 +1,4 @@
-package org.openclassrooms.mdd.security.utils;
+package org.openclassrooms.mdd.utils.entity;
 
 import java.util.regex.Pattern;
 
