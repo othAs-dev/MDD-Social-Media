@@ -3,11 +3,15 @@ package org.openclassrooms.mdd.user.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openclassrooms.mdd.exceptions.ApiException;
+import org.openclassrooms.mdd.user.DTO.UserDetailDTO;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
 import org.openclassrooms.mdd.user.repository.UserDetailRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 /**
@@ -47,6 +51,34 @@ public class UserServiceImpl implements UserService {
     return userDetailRepository.save(userDetailEntity);
   }
 
+  @Override
+  public UserDetailEntity updateUser(UUID userId, UserDetailDTO userDetailDTO) {
+    UserDetailEntity existingUser = userDetailRepository.findById(userId)
+            .orElseThrow(() -> new ApiException.NotFoundException("User not found"));
+
+    if (userDetailDTO.getUsername() != null) {
+      existingUser.setUsername(userDetailDTO.getUsername());
+    }
+
+    if (userDetailDTO.getEmail() != null) {
+      // Vérification que l'email est unique
+      if (!existingUser.getEmail().equals(userDetailDTO.getEmail()) && userDetailRepository.findByEmail(userDetailDTO.getEmail()) != null) {
+        throw new ApiException.BadRequestException("Email already in use");
+      }
+      existingUser.setEmail(userDetailDTO.getEmail());
+    }
+
+    if (userDetailDTO.getPassword() != null) {
+      // Encodez le mot de passe avant de le sauvegarder
+      existingUser.setPassword(passwordEncoder.encode(userDetailDTO.getPassword()));
+    }
+
+    existingUser.setUpdated_at(LocalDateTime.now());
+
+    log.info("User updated successfully");
+    return userDetailRepository.save(existingUser);
+  }
+
   /**
    * Loads a user by their email.
    *
@@ -57,4 +89,5 @@ public class UserServiceImpl implements UserService {
   public UserDetailEntity loadUserByUsername(String email) {
     return userDetailRepository.findByEmail(email);
   }
+
 }

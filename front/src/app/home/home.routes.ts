@@ -11,11 +11,11 @@ export default [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'blog',
+        redirectTo: 'article',
       },
       {
-        path: 'blog',
-        loadChildren: () => import('./blog/blog.routes'),
+        path: 'article',
+        loadChildren: () => import('@app/home/article/article.routes'),
       },
       {
         path: 'user-profil',
@@ -30,6 +30,6 @@ export default [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'blog',
+    redirectTo: 'article',
   },
 ] as Routes;
