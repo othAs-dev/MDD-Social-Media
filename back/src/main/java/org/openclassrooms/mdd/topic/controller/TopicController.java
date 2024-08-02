@@ -4,11 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.openclassrooms.mdd.subscription.service.SubscriptionService;
 import org.openclassrooms.mdd.topic.DTO.TopicDTO;
 import org.openclassrooms.mdd.topic.entity.TopicEntity;
 import org.openclassrooms.mdd.topic.mapper.TopicMapper;
 import org.openclassrooms.mdd.topic.service.TopicService;
-import org.openclassrooms.mdd.user.repository.UserDetailRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,8 @@ import java.util.stream.Collectors;
 public class TopicController {
 
     private final TopicService topicService;
-    private final UserDetailRepository userDetailRepository;
     private final TopicMapper topicMapper;
+    private final SubscriptionService subscriptionService;
 
     @Operation(summary = "This method is used to create a new topic")
     @PostMapping
@@ -53,5 +54,23 @@ public class TopicController {
                 .collect(Collectors.toList());
         log.info("All topics retrieved successfully");
         return ResponseEntity.ok(topics);
+    }
+
+    @Operation(summary = "This method is used to get topics subscribed by the current user")
+    @GetMapping("/my-topics")
+    public ResponseEntity<List<TopicDTO>> getSubscribedTopics(Authentication authentication) {
+        List<TopicEntity> subscribedTopics = subscriptionService.getSubscribedTopics(authentication.getName());
+        List<TopicDTO> topicDTOs = subscribedTopics.stream()
+                .map(topicMapper::toDto) // Convert entities to DTOs
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(topicDTOs);
+    }
+
+    @Operation(summary = "This method is used to delete a topic by id")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTopicById(@PathVariable UUID id) {
+        topicService.deleteTopicById(id);
+        log.info("Topic deleted successfully: {}", id);
+        return ResponseEntity.noContent().build();
     }
 }

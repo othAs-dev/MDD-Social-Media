@@ -25,6 +25,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public TopicEntity createTopic(TopicDTO topicDTO) {
         TopicEntity topic = topicMapper.toEntity(topicDTO);
+        topic.setSubscribed(false);
         log.info("Topic created successfully: {}", topic.getTitle());
         return topicRepository.save(topic);
     }
@@ -39,4 +40,12 @@ public class TopicServiceImpl implements TopicService {
     public List<TopicEntity> getAllTopics() {
         return topicRepository.findAll();
     }
+
+    @Override
+    public void deleteTopicById(UUID id) {
+        topicRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateTopic(TopicEntity topic) { topicRepository.save(topic); }
 }

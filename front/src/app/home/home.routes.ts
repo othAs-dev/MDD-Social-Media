@@ -22,8 +22,8 @@ export default [
         loadComponent: () => import('./user-profil/user-profil.component'),
       },
       {
-        path: 'theme',
-        loadComponent: () => import('./theme/theme.component'),
+        path: 'topic',
+        loadComponent: () => import('@app/home/topic/topic.component'),
       },
     ],
   },

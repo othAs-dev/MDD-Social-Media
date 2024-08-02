@@ -12,5 +12,8 @@ public interface TopicMapper {
     TopicEntity toEntity(TopicDTO topicDTO);
 
     @Mapping(source = "title", target = "title")
+    @Mapping(source = "subscribed", target = "isSubscribed")
     TopicDTO toDto(TopicEntity topicEntity);
 }
+
+

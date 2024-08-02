@@ -26,7 +26,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public void subscribeToTopic(String userEmail, UUID topicId, boolean isSubscribed) {
         UserDetailEntity user = userDetailRepository.findByEmail(userEmail);
         TopicEntity topic = topicService.getTopicById(topicId);
-
         SubscriptionEntity subscription = subscriptionRepository.findByUserAndTopic(user, topic)
                 .orElseGet(() -> SubscriptionEntity.builder().user(user).topic(topic).build());
 

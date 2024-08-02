@@ -31,4 +31,7 @@ public class TopicEntity {
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ArticleEntity> articles;
+
+    @Column(name = "is_subscribed", nullable = false)
+    private boolean isSubscribed;
 }

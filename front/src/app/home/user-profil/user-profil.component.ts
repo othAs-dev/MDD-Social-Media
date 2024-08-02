@@ -11,6 +11,10 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {MatError, MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {passwordValidator} from "@app/auth/register/utils/passwordValidator";
+import {TopicCardComponent} from "@app/shared/components/topic-card/topic-card.component";
+import {TopicService} from "@app/home/topic/topic.service";
+import {Topics} from "@app/home/topic/topic.model";
+import {Id} from "@app/shared/models/id.model";
 
 @Component({
   selector: 'app-user-profil',
@@ -23,7 +27,8 @@ import {passwordValidator} from "@app/auth/register/utils/passwordValidator";
     MatError,
     MatFormField,
     MatInput,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TopicCardComponent
   ],
   templateUrl: './user-profil.component.html',
   styleUrl: './user-profil.component.scss'
@@ -32,6 +37,9 @@ export default class UserProfilComponent {
   private readonly _authService: AuthService = inject(AuthService);
   private readonly _snackBar: MatSnackBar = inject(MatSnackBar);
   private readonly _userProfilService: UserProfilService = inject(UserProfilService);
+  protected topics$: Observable<Topics> = this._userProfilService.getUserTopics().pipe(tap(console.log));
+
+
   protected userDetailsForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required]),
@@ -59,5 +67,16 @@ export default class UserProfilComponent {
     this._authService.logout();
     this._snackBar.open('Déconnexion réussie');
   }
+  protected unsubscribeToTopic(topicId: Id, topicName: string): void {
+    this._userProfilService.unsubscribeToTopic(topicId).subscribe({
+      next: () => {
+        this._snackBar.open(`Vous êtes désormais désabonné de ${topicName}`);
+      },
+      error: () => {
+        this._snackBar.open('Une erreur est survenue, veuillez réessayer plus tard.');
+      }
+    });
+  }
 
+  protected readonly top = top;
 }

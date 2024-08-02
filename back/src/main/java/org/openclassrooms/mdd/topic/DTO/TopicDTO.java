@@ -14,4 +14,5 @@ public class TopicDTO {
     private String title;
     private String description;
     private List<ArticleDTO> articles;
+    private boolean isSubscribed;
 }

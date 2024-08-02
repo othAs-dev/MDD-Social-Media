@@ -9,5 +9,7 @@ import java.util.UUID;
 public interface TopicService {
     TopicEntity createTopic(TopicDTO topicDTO);
     TopicEntity getTopicById(UUID id);
+    void updateTopic(TopicEntity topic);
     List<TopicEntity> getAllTopics();
+    void deleteTopicById(UUID id);
 }

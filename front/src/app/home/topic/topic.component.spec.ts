@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThemeComponent } from './theme.component';
+import { TopicComponent } from './topic.component';
 
 describe('ThemeComponent', () => {
   let component: ThemeComponent;
@@ -11,7 +11,7 @@ describe('ThemeComponent', () => {
       imports: [ThemeComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ThemeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
