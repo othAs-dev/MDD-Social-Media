@@ -48,13 +48,20 @@ public class TopicController {
 
     @Operation(summary = "This method is used to get all topics")
     @GetMapping
-    public ResponseEntity<List<TopicDTO>> getAllTopics() {
+    public ResponseEntity<List<TopicDTO>> getAllTopics(Authentication authentication) {
         List<TopicDTO> topics = topicService.getAllTopics().stream()
-                .map(topicMapper::toDto) // Use the injected mapper
+                .map(topic -> {
+                    TopicDTO dto = topicMapper.toDto(topic);
+                    boolean isSubscribed = subscriptionService.getSubscribedTopics(authentication.getName())
+                            .contains(topic);
+                    dto.setSubscribed(isSubscribed);
+                    return dto;
+                })
                 .collect(Collectors.toList());
         log.info("All topics retrieved successfully");
         return ResponseEntity.ok(topics);
     }
+
 
     @Operation(summary = "This method is used to get topics subscribed by the current user")
     @GetMapping("/my-topics")
