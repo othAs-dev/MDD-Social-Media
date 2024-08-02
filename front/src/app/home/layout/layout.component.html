@@ -1,13 +1,13 @@
-<header>
-  <div class="h-full">
+<header class="fixed top-0 left-0 w-full bg-white z-50">
+<div class="h-full">
     <aside
       class="fixed z-10 bg-white h-full w-52 right-0 transition-transform duration-300 pt-5 pr-3 border border-black"
       [ngClass]="(isSidebarOpen$ | async) ? 'translate-x-0' : 'translate-x-full'">
       <div class="flex flex-col items-end h-full">
         <nav class="flex flex-col justify-between h-full">
           <div class="flex flex-col items-center">
-            <a routerLink="/blog" routerLinkActive="is-active" class="py-2 text-xl">Articles</a>
-            <a routerLink="/theme" routerLinkActive="is-active" class="py-2 text-xl">Thèmes</a>
+            <a routerLink="/article" routerLinkActive="is-active" class="py-2 text-xl">Articles</a>
+            <a routerLink="/topic" routerLinkActive="is-active" class="py-2 text-xl">Thèmes</a>
           </div>
           <div class="flex justify-end">
             <button
@@ -34,8 +34,8 @@
         <div class="hidden laptop:block">
           <nav class="flex flex-row justify-between gap-5 w-full">
             <div class="flex flex-row items-center gap-5">
-              <a routerLink="./blog" routerLinkActive="is-active" class="py-2 text-xl">Articles</a>
-              <a routerLink="/theme" routerLinkActive="is-active" class="py-2 text-xl">Thèmes</a>
+              <a routerLink="./article" routerLinkActive="is-active" class="py-2 text-xl">Articles</a>
+              <a routerLink="/topic" routerLinkActive="is-active" class="py-2 text-xl">Thèmes</a>
             </div>
             <div class="flex justify-end">
               <button
@@ -55,6 +55,6 @@
   </div>
 </header>
 
-<main (click)="isSidebarOpen$.next(false)" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''">
+<main (click)="isSidebarOpen$.next(false)" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''"   class="pt-32 overflow-y-auto h-screen">
   <ng-content></ng-content>
 </main>

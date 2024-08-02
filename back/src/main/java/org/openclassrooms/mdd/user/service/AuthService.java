@@ -1,6 +1,7 @@
 package org.openclassrooms.mdd.user.service;
 
 import org.openclassrooms.mdd.exceptions.ApiException;
+import org.openclassrooms.mdd.security.utils.GenerateToken;
 import org.openclassrooms.mdd.utils.entity.DataValidation;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
 import org.openclassrooms.mdd.user.repository.UserDetailRepository;
@@ -18,11 +19,13 @@ public class AuthService {
 
   private final AuthenticationManager authenticationManager;
   private final UserDetailRepository userDetailRepository;
+  private final GenerateToken generateToken;
 
   @Autowired
-  public AuthService(AuthenticationManager authenticationManager, UserDetailRepository userDetailRepository) {
+  public AuthService(AuthenticationManager authenticationManager, UserDetailRepository userDetailRepository, GenerateToken generateToken) {
     this.authenticationManager = authenticationManager;
     this.userDetailRepository = userDetailRepository;
+    this.generateToken = generateToken;
   }
 
   /**
@@ -56,5 +59,9 @@ public class AuthService {
     } catch (Exception e) {
       throw new ApiException.BadRequestException("Failed to login user. The error is: " + e.getMessage());
     }
+  }
+
+  public String generateNewToken(Authentication authentication) {
+    return generateToken.generateAccessToken(authentication);
   }
 }

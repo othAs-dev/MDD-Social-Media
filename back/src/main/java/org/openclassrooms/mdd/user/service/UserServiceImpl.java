@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
-
 
 /**
  * Service class for managing users.
@@ -43,10 +43,10 @@ public class UserServiceImpl implements UserService {
     if (password.length() > 32)
       throw new ApiException.BadRequestException("Password must be at most 32 characters long");
     userDetailEntity = UserDetailEntity.builder()
-      .username(username)
-      .password(passwordEncoder.encode(password))
-      .email(email)
-      .build();
+            .username(username)
+            .password(passwordEncoder.encode(password))
+            .email(email)
+            .build();
     log.info("User saved with success");
     return userDetailRepository.save(userDetailEntity);
   }
@@ -61,20 +61,18 @@ public class UserServiceImpl implements UserService {
     }
 
     if (userDetailDTO.getEmail() != null) {
-      // Vérification que l'email est unique
-      if (!existingUser.getEmail().equals(userDetailDTO.getEmail()) && userDetailRepository.findByEmail(userDetailDTO.getEmail()) != null) {
+      if (!existingUser.getEmail().equals(userDetailDTO.getEmail()) &&
+              userDetailRepository.findByEmail(userDetailDTO.getEmail()) != null) {
         throw new ApiException.BadRequestException("Email already in use");
       }
       existingUser.setEmail(userDetailDTO.getEmail());
     }
 
     if (userDetailDTO.getPassword() != null) {
-      // Encodez le mot de passe avant de le sauvegarder
       existingUser.setPassword(passwordEncoder.encode(userDetailDTO.getPassword()));
     }
 
     existingUser.setUpdated_at(LocalDateTime.now());
-
     log.info("User updated successfully");
     return userDetailRepository.save(existingUser);
   }
@@ -90,4 +88,14 @@ public class UserServiceImpl implements UserService {
     return userDetailRepository.findByEmail(email);
   }
 
+  @Override
+  public Optional<UserDetailEntity> findById(UUID userId) {
+    return userDetailRepository.findById(userId);
+  }
+
+  @Override
+  public UserDetailEntity findByEmail(String email) {
+    return userDetailRepository.findByEmail(email);
+  }
 }
+

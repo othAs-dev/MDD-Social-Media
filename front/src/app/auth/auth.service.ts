@@ -1,9 +1,9 @@
-import {inject, Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Router} from '@angular/router';
+import { Injectable, inject } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import {AccessToken} from "@app/auth/models/accessToken.model";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private _isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasValidAccessToken());
   private _router: Router = inject(Router);
@@ -29,5 +29,10 @@ export class AuthService {
 
   isAuthenticated(): Observable<boolean> {
     return this._isAuthenticatedSubject.asObservable();
+  }
+
+  public updateToken(newToken: string): void {
+    localStorage.setItem('accessToken', newToken);
+    this._isAuthenticatedSubject.next(true);
   }
 }

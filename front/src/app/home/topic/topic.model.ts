@@ -5,7 +5,8 @@ export interface Topic {
   id: Id;
   title: string;
   description: string;
-  articles: Articles
+  articles: Articles;
+  subscribed: boolean;
 }
 
 export type Topics = Topic[];
