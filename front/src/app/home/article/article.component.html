@@ -5,7 +5,7 @@
 @if (articles$ | async; as articles) {
   <div class="flex flex-wrap justify-center gap-5 mb-5">
     @if (articles.length === 0) {
-      <p>Vous n'êtes abonné à aucun sujet.</p>
+      <p>Veuillez vous abonner à un sujet pour voir des articles</p>
     } @else {
       @for (article of articles; track article.id) {
         <app-card-article

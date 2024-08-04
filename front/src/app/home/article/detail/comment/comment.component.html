@@ -1,39 +1,36 @@
-<div class="w-full flex flex-col items-center gap-5">
+<div class="w-full h-full flex flex-col items-center gap-5">
   @if (comments.length === 0) {
     <p>Aucun commentaire pour le moment</p>
   } @else {
-    @for (comment of comments$ | async;track comment.id) {
-      <div class="w-8/12 flex flex-row gap-5">
-        <p>{{ comment.username }}</p>
-        <mat-card class="p-5">
-          <mat-card-content>
-            <p class="text-lg">{{ comment.content }}</p>
-          </mat-card-content>
-          <mat-card-footer>
-            <div class="flex justify-end">
-              <p>{{ comment.createdAt | date: 'dd/MM/yyyy' }}</p>
-            </div>
-          </mat-card-footer>
-        </mat-card>
-      </div>
-    }
+    <div class="flex flex-col gap-5 w-full h-96 pt-1 pb-1 overflow-y-auto justify-center items-center">
+      @for (comment of comments$ | async;track comment.id) {
+        <div class="w-8/12 h-Full flex flex-row gap-5">
+          <p>{{ comment.username }}</p>
+          <mat-card class="p-5">
+            <mat-card-content>
+              <p class="text-lg">{{ comment.content }}</p>
+            </mat-card-content>
+            <mat-card-footer>
+              <div class="flex justify-end">
+                <p>{{ comment.createdAt | date: 'dd/MM/yyyy' }}</p>
+              </div>
+            </mat-card-footer>
+          </mat-card>
+        </div>
+      }
+    </div>
   }
-  <div class="w-8/12">
-    <form [formGroup]="commentForm" (ngSubmit)="addComment(articleId, commentForm.value)" class="flex flex-row w-full">
-      <mat-form-field class="w-full">
-        <textarea matInput formControlName="content" placeholder="Ecrivez ici votre commentaire"></textarea>
-        <mat-error *ngIf="commentForm.get('content')!.hasError('required')">
-          un commentaire est requis.
-        </mat-error>
-      </mat-form-field>
+  <form [formGroup]="commentForm" (ngSubmit)="addComment(articleId, commentForm.value)" class="flex flex-row w-8/12">
+    <mat-form-field class="w-full">
+      <textarea matInput formControlName="content" placeholder="Ecrivez ici votre commentaire"></textarea>
+    </mat-form-field>
 
-      <div class="flex justify-center pt-5">
-        <button mat-icon-button type="submit"
-                [disabled]="commentForm.invalid" disabled aria-label="Send a comment">
-          <mat-icon>send</mat-icon>
-        </button>
-      </div>
-    </form>
-  </div>
+    <div class="flex justify-center pt-5">
+      <button mat-icon-button type="submit"
+              [disabled]="commentForm.invalid" disabled aria-label="Send a comment">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </form>
 </div>
 

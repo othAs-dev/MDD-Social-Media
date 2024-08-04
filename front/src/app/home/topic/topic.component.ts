@@ -8,6 +8,7 @@ import {MatButton} from '@angular/material/button';
 import {TopicCardComponent} from '@app/shared/components/topic-card/topic-card.component';
 import {Id} from '@app/shared/models/id.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {CardArticleComponent} from "@app/home/article/card-article/card-article.component";
 
 @Component({
   selector: 'app-topic',
@@ -15,7 +16,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   imports: [
     AsyncPipe,
     MatButton,
-    TopicCardComponent
+    TopicCardComponent,
+    CardArticleComponent
   ],
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.scss']

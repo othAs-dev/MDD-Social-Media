@@ -1,23 +1,26 @@
-<div class="p-5">
-  <div class="w-full flex flex-row gap-5 items-center">
-    <button mat-icon-button aria-label="icon button with left arrow" routerLink="../article">
-      <mat-icon>keyboard_backspace</mat-icon>
-    </button>
-    <h1 class="font-bold text-2xl">{{ article.title }}</h1>
-  </div>
-
-  <div class="w-full p-3 flex flex-col gap-5 justify-center">
-    <div class="w-full flex flex-row gap-5 mb-5">
-      <p class="text-xl">{{ article.createdAt | date: 'dd/MM/yyyy' }}</p>
-      <p class="text-xl">{{ article.username }}</p>
-      <p class="text-xl">{{ article.topicTitle }}</p>
+<div class="p-5 h-full flex flex-col">
+  <div class="flex flex-col h-fit pb-4">
+    <div class="w-full flex flex-row gap-5 items-center">
+      <button mat-icon-button aria-label="icon button with left arrow" routerLink="../article">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </button>
+      <h1 class="font-bold text-2xl">{{ article.title }}</h1>
     </div>
-    <div class="w-full flex-col gap-5">
+    <div class="w-full flex flex-col gap-5 justify-center">
+      <div class="w-full flex flex-row gap-5 mb-3">
+        <p class="text-xl">{{ article.createdAt | date: 'dd/MM/yyyy' }}</p>
+        <p class="text-xl">{{ article.username }}</p>
+        <p class="text-xl">{{ article.topicTitle }}</p>
+      </div>
       <p>
         {{ article.description }}
       </p>
-      <hr class="border-black w-full mt-5 mb-5"/>
-      <h2 class="text-2xl">Commentaires</h2>
+    </div>
+  </div>
+  <hr class="border-black w-full mt-2 mb-2"/>
+  <div class="w-full flex-col gap-5 h-3/4">
+    <h2 class="text-2xl">Commentaires</h2>
+    <div class="w-full h-full flex flex-col gap-5 justify-end">
       <app-comment [articleId]="article.id" [comments]="article.comments"/>
     </div>
   </div>

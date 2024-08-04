@@ -25,7 +25,7 @@
     </aside>
 
 
-    <div class="pb-4" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''">
+    <div class="pb-1" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''">
       <div class="flex w-full justify-between items-center">
         <img src="assets/logo.png" alt="logo" class="w-40 cursor-pointer" routerLink="./blog"/>
         <div class="mr-3 laptop:hidden">
@@ -55,6 +55,6 @@
   </div>
 </header>
 
-<main (click)="isSidebarOpen$.next(false)" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''"   class="pt-32 overflow-y-auto h-screen">
+<main (click)="isSidebarOpen$.next(false)" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''"   class="pt-28 overflow-y-auto h-screen">
   <ng-content></ng-content>
 </main>
