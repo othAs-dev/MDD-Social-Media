@@ -10,8 +10,6 @@ import {LayoutComponent} from "./layout/layout.component";
     LayoutComponent
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styles: []
 })
-export default class HomeComponent {
-
-}
+export default class HomeComponent {}

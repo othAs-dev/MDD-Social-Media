@@ -34,7 +34,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     NgForOf
   ],
   templateUrl: './create.component.html',
-  styleUrl: './create.component.scss'
+  styles: []
 })
 export default class CreateComponent {
   private readonly _createArticleService: CreateArticleService = inject(CreateArticleService);

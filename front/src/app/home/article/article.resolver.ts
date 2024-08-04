@@ -4,6 +4,14 @@ import { catchError, EMPTY, take } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import {Article} from "@app/home/article/article.model";
 
+
+/**
+ *
+ * @description Resolver for Article
+ *
+ * @returns Article
+ *
+ **/
 export const ArticleResolver: ResolveFn<Article> = (
   route,
   state,

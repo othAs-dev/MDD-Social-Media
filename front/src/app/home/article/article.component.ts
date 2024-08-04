@@ -21,9 +21,20 @@ import {tap} from "rxjs/operators";
     RouterLink
   ],
   templateUrl: './article.component.html',
-  styleUrl: './article.component.scss'
+  styles: []
 })
 export default class ArticleComponent {
   private readonly _articleService: ArticleService = inject(ArticleService);
-  protected articles$: Observable<Articles> = this._articleService.getArticles().pipe(tap(console.log));
+
+  /**
+   *
+   * @description Observable of articles
+   *
+   * @example
+   * articles$;
+   *
+   * @returns Observable<Articles
+   *
+   **/
+  protected articles$: Observable<Articles> = this._articleService.getArticles();
 }

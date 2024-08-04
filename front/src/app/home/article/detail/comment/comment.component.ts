@@ -48,6 +48,14 @@ export class CommentComponent {
 
   private readonly refresh$ = new Subject<void>();
 
+
+  /**
+   *
+   * @description Observable of comments
+   *
+   * @returns Observable<Comments>
+   *
+   * */
   protected comments$: Observable<Comments> = this.refresh$.pipe(
     startWith(null),
     switchMap(() => this._commentService.getComments$(this.articleId)),
@@ -57,10 +65,26 @@ export class CommentComponent {
     })
   );
 
+  /**
+   *
+   * @description Comment form group to add a comment to the article
+   * */
   protected commentForm: FormGroup = new FormGroup({
     content: new FormControl('', [Validators.required]),
   });
 
+
+  /**
+   *
+   * @param articleId
+   * @param content
+   * @returns void
+   * @description Add a comment to the article
+   *
+   * @example
+   * addComment(1, 'This is a comment');
+   *
+   * */
   protected addComment(articleId: Id, content: string): void {
     this._commentService.postComment$(articleId, content).pipe(
       take(1),

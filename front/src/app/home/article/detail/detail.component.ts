@@ -17,7 +17,7 @@ import {CommentComponent} from "@app/home/article/detail/comment/comment.compone
     CommentComponent
   ],
   templateUrl: './detail.component.html',
-  styleUrl: './detail.component.scss'
+  styles: []
 })
 export default class DetailComponent {
   @Input({required: true}) article!: Article;

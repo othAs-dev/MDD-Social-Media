@@ -12,6 +12,7 @@ export class AuthService {
    * Handles the login response by storing the access token in local storage
    * and updating the authentication status.
    * @param response The response object containing the access token.
+   * @returns void
    */
   public handleLoginResponse(response: AccessToken): void {
     localStorage.setItem('accessToken', response.accessToken);
@@ -21,6 +22,7 @@ export class AuthService {
   /**
    * Logs out the current user by removing the access token from local storage
    * and updating the authentication status. Redirects the user to the login page.
+   * @returns void
    */
   logout(): void {
     localStorage.removeItem('accessToken');
@@ -55,6 +57,7 @@ export class AuthService {
   /**
    * Updates the access token in local storage and sets the authentication status to true.
    * @param newToken The new access token to be stored.
+   * @returns void
    */
   public updateToken(newToken: string): void {
     console.log('newToken', newToken);
