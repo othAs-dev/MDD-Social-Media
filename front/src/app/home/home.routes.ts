@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import HomeComponent from "./home.component";
-import {authGuard} from "@app/config/guards/auth.guard";
+import HomeComponent from './home.component';
+import { authGuard } from '@app/config/guards/auth.guard';
 
 export default [
   {
@@ -11,25 +11,28 @@ export default [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'blog',
+        redirectTo: 'not-found',
       },
       {
-        path: 'blog',
-        loadChildren: () => import('./blog/blog.routes'),
+        path: 'article',
+        loadChildren: () => import('@app/home/article/article.routes'),
       },
       {
         path: 'user-profil',
         loadComponent: () => import('./user-profil/user-profil.component'),
       },
       {
-        path: 'theme',
-        loadComponent: () => import('./theme/theme.component'),
+        path: 'topic',
+        loadComponent: () => import('@app/home/topic/topic.component'),
+      },
+      {
+        path: 'not-found',
+        loadComponent: () => import('@app/not-found/not-found.component'),
       },
     ],
   },
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'blog',
+    path: '**',
+    redirectTo: '', // Global fallback redirecting to the home route
   },
 ] as Routes;

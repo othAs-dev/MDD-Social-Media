@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {Login} from "@app/auth/login/models/login.model";
 import {LoginService} from "@app/auth/login/login.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -37,10 +38,10 @@ export default class LoginComponent {
 
   protected login(credentials: Login): void {
     if (this.loginForm.valid) {
-      this._loginService.login(credentials).subscribe({
+      this._loginService.login(credentials).pipe(take(1)).subscribe({
         next: () => {
           this._snackBar.open('Bonjour !');
-          this._router.navigate(['/blog']);
+          this._router.navigate(['/article']);
         },
         error: (error) => {
           this._snackBar.open('Authentification échoué, verifiez vos informations.');

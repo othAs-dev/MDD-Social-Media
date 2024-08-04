@@ -1,6 +1,7 @@
 package org.openclassrooms.mdd.user.service;
 
 import org.openclassrooms.mdd.exceptions.ApiException;
+import org.openclassrooms.mdd.security.utils.GenerateToken;
 import org.openclassrooms.mdd.utils.entity.DataValidation;
 import org.openclassrooms.mdd.user.entity.UserDetailEntity;
 import org.openclassrooms.mdd.user.repository.UserDetailRepository;
@@ -19,11 +20,11 @@ public class AuthService {
   private final AuthenticationManager authenticationManager;
   private final UserDetailRepository userDetailRepository;
 
-  @Autowired
-  public AuthService(AuthenticationManager authenticationManager, UserDetailRepository userDetailRepository) {
+    @Autowired
+  public AuthService(AuthenticationManager authenticationManager, UserDetailRepository userDetailRepository, GenerateToken generateToken) {
     this.authenticationManager = authenticationManager;
     this.userDetailRepository = userDetailRepository;
-  }
+    }
 
   /**
    * Finds a user by their username or email.

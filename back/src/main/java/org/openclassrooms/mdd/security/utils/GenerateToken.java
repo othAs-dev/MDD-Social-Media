@@ -1,7 +1,6 @@
 package org.openclassrooms.mdd.security.utils;
 
 import lombok.AllArgsConstructor;
-import org.openclassrooms.mdd.exceptions.ApiException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -19,8 +18,7 @@ public class GenerateToken {
 
   private final JwtEncoder jwtEncoder;
 
-  // Durée de validité des tokens en minutes
-  private static final int ACCESS_TOKEN_VALIDITY= 1440;
+  private static final int ACCESS_TOKEN_VALIDITY= 1440;  // Durée de validité des tokens en minutes
 
   /**
    * Générer un token d'accès pour l'utilisateur.

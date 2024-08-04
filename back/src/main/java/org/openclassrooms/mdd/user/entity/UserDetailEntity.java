@@ -7,8 +7,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.openclassrooms.mdd.topic.entity.TopicEntity;
 import org.openclassrooms.mdd.utils.entity.BaseEntity;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
