@@ -1,5 +1,6 @@
 package org.openclassrooms.mdd.subscription.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openclassrooms.mdd.subscription.service.SubscriptionService;
@@ -36,6 +37,7 @@ public class SubscriptionController {
      * @param authentication the authentication object
      * @return the response
      * */
+    @Operation(summary = "Subscribe to a topic by ID")
     @GetMapping("/subscribe")
     public ResponseEntity<Map<String, String>> subscribeToTopic(
             @RequestParam UUID topicId,
@@ -66,6 +68,7 @@ public class SubscriptionController {
      * @param authentication the authentication object
      * @return the response
      * */
+    @Operation(summary = "Unsubscribe from a topic by ID")
     @GetMapping("/unsubscribe")
     public ResponseEntity<Map<String, String>> unsubscribeFromTopic(
             @RequestParam UUID topicId,
@@ -95,6 +98,7 @@ public class SubscriptionController {
      * @param authentication the authentication object
      * @return the list of topics
      * */
+    @Operation(summary = "Get topics subscribed by the current user")
     @GetMapping("/my-topics")
     public ResponseEntity<List<TopicDTO>> getSubscribedTopics(Authentication authentication) {
         List<TopicEntity> topics = subscriptionService.getSubscribedTopics(authentication.getName());

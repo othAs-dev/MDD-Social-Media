@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -29,32 +28,6 @@ public class UserDetailController {
   private final UserService userService;
   private final AuthService authService;
   private final GenerateToken generateToken;
-
-  /**
-  * Retrieve user details by ID
-  *
-  * @param id the ID of the user
-  * @return the user details
-  * @throws ApiException.NotFoundException if the user is not found
-  * @throws ApiException.BadRequestException if the ID is invalid
-  *
-  * */
-  @Operation(summary = "Retrieve user details by ID")
-  @GetMapping("/user/{id}")
-  public ResponseEntity<UserDetailDTO> getUserDetailById(@PathVariable String id) {
-    try {
-      Optional<UserDetailEntity> userOptional = userService.findById(UUID.fromString(id));
-      if (userOptional.isPresent()) {
-        UserDetailDTO userDTO = UserDetailMapper.INSTANCE.toDTO(userOptional.get());
-        return ResponseEntity.ok(userDTO);
-      } else {
-        throw new ApiException.NotFoundException("User not found");
-      }
-    } catch (IllegalArgumentException e) {
-      log.error("Failed to get user details by id: {}", e.getMessage());
-      throw new ApiException.BadRequestException("Invalid user ID");
-    }
-  }
 
   /**
   *

@@ -94,6 +94,15 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void updateTopic(TopicEntity topic) { topicRepository.save(topic); }
 
+    /**
+     *
+     * Get a topic by title
+     *
+     * @param title the title of the topic to retrieve
+     *           @return the topic
+     *            * @throws ApiException.NotFoundException if the topic is not found
+     *
+     * */
     @Override
     public TopicEntity getTopicByTitle(String title) {return topicRepository.findByTitle(title);}
 }

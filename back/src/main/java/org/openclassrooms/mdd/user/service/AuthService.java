@@ -19,14 +19,12 @@ public class AuthService {
 
   private final AuthenticationManager authenticationManager;
   private final UserDetailRepository userDetailRepository;
-  private final GenerateToken generateToken;
 
-  @Autowired
+    @Autowired
   public AuthService(AuthenticationManager authenticationManager, UserDetailRepository userDetailRepository, GenerateToken generateToken) {
     this.authenticationManager = authenticationManager;
     this.userDetailRepository = userDetailRepository;
-    this.generateToken = generateToken;
-  }
+    }
 
   /**
    * Finds a user by their username or email.
@@ -59,9 +57,5 @@ public class AuthService {
     } catch (Exception e) {
       throw new ApiException.BadRequestException("Failed to login user. The error is: " + e.getMessage());
     }
-  }
-
-  public String generateNewToken(Authentication authentication) {
-    return generateToken.generateAccessToken(authentication);
   }
 }

@@ -29,6 +29,18 @@ public class CommentServiceImpl implements CommentService {
     private final UserDetailRepository userDetailRepository;
     private final CommentMapper commentMapper;
 
+
+    /**
+     *
+     * Add a comment to an article
+     *
+     * @param articleId the ID of the article to add the comment to
+     * @param authorId the ID of the author of the comment
+     * @param commentDTO the comment to add
+     *
+     * @return the created comment
+     * @throws ApiException.NotFoundException if the article or user is not found
+     * */
     @Override
     public CommentDTO addComment(UUID articleId, UUID authorId, CommentDTO commentDTO) {
         ArticleEntity article = articleRepository.findById(articleId)
@@ -45,7 +57,15 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.toDto(savedComment); // Convert saved CommentEntity to CommentDTO
     }
 
-
+    /**
+     *
+     * Get all comments for an article
+     *
+     * @param articleId the ID of the article to get comments for
+     *
+     * @return a list of comments
+     * @throws ApiException.NotFoundException if the article is not found
+     * */
     @Override
     public List<CommentDTO> getCommentsByArticleId(UUID articleId) {
         ArticleEntity article = articleRepository.findById(articleId)

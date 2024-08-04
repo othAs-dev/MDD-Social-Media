@@ -10,4 +10,6 @@ public interface ArticleService {
     ArticleEntity createArticle(UUID topicId, UUID authorId, ArticleDTO articleDTO);
     ArticleEntity getArticleById(UUID id);
     List<ArticleEntity> getArticlesForUser(String userEmail);
+
+
 }
