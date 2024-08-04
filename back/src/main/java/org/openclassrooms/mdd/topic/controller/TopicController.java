@@ -111,13 +111,4 @@ public class TopicController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(topicDTOs);
     }
-
-
-    @Operation(summary = "This method is used to delete a topic by id")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTopicById(@PathVariable UUID id) {
-        topicService.deleteTopicById(id);
-        log.info("Topic deleted successfully: {}", id);
-        return ResponseEntity.noContent().build();
-    }
 }

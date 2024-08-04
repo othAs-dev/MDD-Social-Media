@@ -44,7 +44,7 @@ export default class RegisterComponent {
       this._registerService.register(credentials).pipe(take(1)).subscribe({
         next: () => {
           this._snackBar.open('Bienvenue !');
-          this._router.navigate(['/']); // Navigate to home or dashboard after login
+          this._router.navigate(['/article']); // Navigate to home or dashboard after login
         },
         error: (error) => {
           this._snackBar.open('Insription échouée, veuillez réessayer plus tard.', 'Fermer', { duration: 3000 });

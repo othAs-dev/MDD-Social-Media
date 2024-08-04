@@ -41,7 +41,7 @@ export default class LoginComponent {
       this._loginService.login(credentials).pipe(take(1)).subscribe({
         next: () => {
           this._snackBar.open('Bonjour !');
-          this._router.navigate(['/blog']);
+          this._router.navigate(['/article']);
         },
         error: (error) => {
           this._snackBar.open('Authentification échoué, verifiez vos informations.');

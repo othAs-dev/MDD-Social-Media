@@ -74,18 +74,6 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      *
-     * Delete a topic by ID
-     *
-     * @param id the ID of the topic to delete
-     *
-     * */
-    @Override
-    public void deleteTopicById(UUID id) {
-        topicRepository.deleteById(id);
-    }
-
-    /**
-     *
      * Update a topic
      *
      * @param topic the topic to update
