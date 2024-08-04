@@ -1,0 +1,18 @@
+@use '@angular/material/index' as mat;
+
+@include mat.core();
+
+// Available color palettes: https://material.io/design/color/
+$mdd-primary: mat.define-palette(mat.$indigo-palette);
+$mdd-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$mdd-warn: mat.define-palette(mat.$red-palette);
+
+$mdd-theme: mat.define-light-theme((
+  color: (
+    primary: $mdd-primary,
+    accent: $mdd-accent,
+    warn: $mdd-warn,
+  )
+));
+
+@include mat.all-component-themes($mdd-theme);

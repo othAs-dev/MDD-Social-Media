@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: mdd
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mdd
+    username: ${USERNAME_MYSQL}
+    password: ${PASSWORD_MYSQL}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+server:
+  port: 3001
+  base-url: http://localhost:3001
+
+
+jwt:
+  secret: ${JWT_SECRET}
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+
+
+

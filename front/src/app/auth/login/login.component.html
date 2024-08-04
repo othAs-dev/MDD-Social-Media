@@ -1,0 +1,35 @@
+<app-layout title="Se connecter">
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="login(loginForm.value)"
+    class="flex flex-col w-5/6 pt-5 laptop:w-2/6"
+  >
+    <label>E-mail ou nom d’utilisateur</label>
+    <mat-form-field>
+      <input matInput formControlName="userOrEmail" type="text" required>
+      <mat-error *ngIf="loginForm.get('userOrEmail')!.hasError('required')">
+       Ce champ est requis.
+      </mat-error>
+    </mat-form-field>
+
+    <label>Mot de passe</label>
+    <mat-form-field>
+      <input matInput formControlName="password" type="password" required>
+      <mat-error *ngIf="loginForm.get('password')!.hasError('required')">
+        Le mot de passe est requis.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="flex justify-center pt-5">
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-1/2"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Se connecter
+      </button>
+    </div>
+  </form>
+</app-layout>

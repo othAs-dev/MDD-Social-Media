@@ -1,0 +1,39 @@
+<div class="w-full flex flex-col gap-3 mb-5">
+  <div class=" flex justify-center laptop:justify-start">
+    <button mat-raised-button mat-button color="primary" class="laptop:ml-3" routerLink="./create">Créer un article
+    </button>
+  </div>
+  <div class=" flex justify-center laptop:justify-end">
+    <button mat-button (click)="changeSortOrder()">
+      Trier par
+      @if(isAsc) {
+        <mat-icon inline=true iconPositionEnd>arrow_upward</mat-icon>
+      } @else {
+      <mat-icon inline=true iconPositionEnd>arrow_downward</mat-icon>
+      }
+    </button>
+  </div>
+</div>
+
+@if (sortedArticles$ | async;as articles) {
+  <div class="flex flex-wrap justify-center gap-5 mb-5">
+    @if (articles.length === 0) {
+      <p class="text-sm laptop:text-xl">Veuillez vous abonner à un sujet pour voir des articles</p>
+    } @else {
+      @for (article of articles;track article.id) {
+        <app-card-article
+          [id]="article.id"
+          [title]="article.title"
+          [description]="article.description"
+          [date]="article.createdAt"
+          [author]="article.username"
+          [topicTitle]="article.topicTitle"
+        />
+      }
+    }
+  </div>
+} @else {
+  <div class="flex justify-center w-full">
+    <p>Un problème est survenu</p>
+  </div>
+}

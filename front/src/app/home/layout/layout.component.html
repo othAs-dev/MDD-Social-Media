@@ -1,0 +1,60 @@
+<header class="fixed top-0 left-0 w-full bg-white z-50">
+<div class="h-full">
+    <aside
+      class="fixed z-10 bg-white h-full w-52 right-0 transition-transform duration-300 pt-5 pr-3 border border-black"
+      [ngClass]="(isSidebarOpen$ | async) ? 'translate-x-0' : 'translate-x-full'">
+      <div class="flex flex-col items-end h-full">
+        <nav class="flex flex-col justify-between h-full">
+          <div class="flex flex-col items-center">
+            <a routerLink="/article" routerLinkActive="is-active" class="py-2 text-xl">Articles</a>
+            <a routerLink="/topic" routerLinkActive="is-active" class="py-2 text-xl">Thèmes</a>
+          </div>
+          <div class="flex justify-end">
+            <button
+              mat-icon-button
+              aria-label="icon button for account"
+              routerLink="./user-profil"
+              routerLinkActive="is-active"
+              class="pb-5"
+            >
+              <mat-icon class="icon-display">account_circle</mat-icon>
+            </button>
+          </div>
+        </nav>
+      </div>
+    </aside>
+
+
+    <div class="pb-1" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''">
+      <div class="flex w-full justify-between items-center">
+        <img src="assets/logo.png" alt="logo" class="w-40 cursor-pointer" routerLink="./article"/>
+        <div class="mr-3 laptop:hidden">
+          <mat-icon (click)="isSidebarOpen$.next(true)">menu</mat-icon>
+        </div>
+        <div class="hidden laptop:block">
+          <nav class="flex flex-row justify-between gap-5 w-full">
+            <div class="flex flex-row items-center gap-5">
+              <a routerLink="./article" routerLinkActive="is-active" class="py-2 text-xl">Articles</a>
+              <a routerLink="/topic" routerLinkActive="is-active" class="py-2 text-xl">Thèmes</a>
+            </div>
+            <div class="flex justify-end">
+              <button
+                mat-icon-button
+                aria-label="icon button for account"
+                routerLink="./user-profil"
+                routerLinkActive="is-active"
+                class="pr-5">
+                <mat-icon class="icon-display">account_circle</mat-icon>
+              </button>
+            </div>
+          </nav>
+        </div>
+      </div>
+      <hr class="border-black"/>
+    </div>
+  </div>
+</header>
+
+<main (click)="isSidebarOpen$.next(false)" [ngClass]="(isSidebarOpen$ | async) ? 'opacity-25' : ''"   class="pt-28 overflow-y-auto h-screen">
+  <ng-content></ng-content>
+</main>

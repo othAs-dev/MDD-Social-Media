@@ -1,0 +1,73 @@
+@if(userDetails$ | async; as user) {
+<div class="flex flex-col items-center w-full gap-5 mb-3">
+  <h1 class="text-2xl">Profil utilisateur</h1>
+  <form [formGroup]="userDetailsForm" (ngSubmit)="save(user.id, userDetailsForm.value)" class="flex flex-col w-5/6 pt-5 laptop:w-2/6">
+    <label>Nom d’utilisateur</label>
+    <mat-form-field>
+      <input matInput formControlName="username" type="text" [value]="user.username">
+      <mat-error *ngIf="userDetailsForm.get('username')!.hasError('required')">
+        Le nom d'utilisateur est requis.
+      </mat-error>
+    </mat-form-field>
+
+    <label>Adresse e-mail</label>
+    <mat-form-field>
+      <input matInput formControlName="email" type="text">
+      <mat-error *ngIf="userDetailsForm.get('email')!.hasError('required')">
+        L'adresse e-mail est requise.
+      </mat-error>
+      <mat-error *ngIf="userDetailsForm.get('email')!.hasError('email')">
+        Adresse e-mail invalide.
+      </mat-error>
+    </mat-form-field>
+
+    <label>Mot de passe</label>
+    <mat-form-field>
+      <input matInput formControlName="password" type="password">
+      <mat-error *ngIf="userDetailsForm.get('password')!.hasError('invalidPassword')">
+        Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et
+        un caractère spécial.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="flex justify-center pt-5">
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-1/2"
+        type="submit"
+        [disabled]="userDetailsForm.invalid"
+      >
+        Sauvegarder
+      </button>
+    </div>
+  </form>
+<button mat-button (click)="logout()" color="warn">Se déconnecter</button>
+</div>
+  <div class="w-full flex flex-col justify-center mb-3">
+    <hr class=" w-12/12 border-black"/>
+    <h1 class="text-2xl font-bold text-center mt-2 mb-2">Abonnements</h1>
+  </div>
+
+  @if (topics$ | async; as topics) {
+    <div class="flex flex-wrap justify-center gap-5 mb-5">
+      @if (topics.length === 0) {
+        <p>Vous n'êtes abonné à aucun sujet.</p>
+      } @else {
+        @for (topic of topics; track topic.id) {
+          <app-topic-card
+            [title]="topic.title"
+            [description]="topic.description"
+            btnContent="Se désabonner"
+            (manageSubscription)="unsubscribeToTopic(topic.id, topic.title)"
+            [isSubscribed]="false"
+          />
+        }
+      }
+    </div>
+  } @else {
+    <div class="flex justify-center w-full">
+      <p>Un problème est survenu</p>
+    </div>
+  }
+}
