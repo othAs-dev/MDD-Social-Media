@@ -7,7 +7,7 @@ Remember to assign a secret key to the `JWT_SECRET` environment variable.
 
 ##### THE SECRET MUST BE AT LEAST 256 BITS LONG TO ENSURE JWT SECURITY.
 
-If you don't, you will encounter this error: An error occurred while attempting to decode the Jwt: The secret length must be at least #####256 bits
+If you don't, you will encounter this error: An error occurred while attempting to decode the Jwt: The secret length must be at least **256 bits**
 
 To generate a secret, you have several options. The simplest is to enter this command in your terminal:
 
