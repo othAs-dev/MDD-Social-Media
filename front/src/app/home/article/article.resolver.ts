@@ -22,7 +22,7 @@ export const ArticleResolver: ResolveFn<Article> = (
     .pipe(
       take(1),
       catchError((err) => {
-        router.navigate(["/articles"]);
+        router.navigate(["/not-found"]);
         return EMPTY;
       })
     );

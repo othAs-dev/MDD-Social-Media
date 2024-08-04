@@ -6,16 +6,16 @@ export default [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [authGuard], // Authentication guard for the home route
+    canActivate: [authGuard],
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'article', // Redirects to 'articles' by default
+        redirectTo: 'not-found',
       },
       {
         path: 'article',
-        loadChildren: () => import('@app/home/article/article.routes'), // Lazy loading articles module
+        loadChildren: () => import('@app/home/article/article.routes'),
       },
       {
         path: 'user-profil',
@@ -24,6 +24,10 @@ export default [
       {
         path: 'topic',
         loadComponent: () => import('@app/home/topic/topic.component'),
+      },
+      {
+        path: 'not-found',
+        loadComponent: () => import('@app/not-found/not-found.component'),
       },
     ],
   },
