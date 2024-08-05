@@ -6,7 +6,7 @@
   } @else {
     <div class="flex flex-col gap-5 w-full h-80 laptop:h-96 p-1 overflow-y-auto justify-center items-center">
       @for (comment of comments$ | async;track comment.id) {
-        <div class="w-full laptop:w-8/12 h-Full flex flex-row gap-5">
+        <div class="w-full laptop:w-8/12 h-Full flex items-end flex-row-reverse laptop:flex-row gap-5">
           <p>{{ comment.username }}</p>
           <mat-card class="p-5">
             <mat-card-content>
