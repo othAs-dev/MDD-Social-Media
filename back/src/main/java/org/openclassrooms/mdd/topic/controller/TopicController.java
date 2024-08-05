@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -50,25 +49,6 @@ public class TopicController {
         TopicDTO createdTopicDTO = topicMapper.toDto(topic);
         log.info("Topic created successfully: {}", topicDTO.getTitle());
         return ResponseEntity.ok(createdTopicDTO);
-    }
-
-    /**
-     *
-     * Get a topic by ID
-     *
-     * @param id the ID of the topic to retrieve
-     *           @return the topic
-     *            * @throws ApiException.NotFoundException if the topic is not found
-     *
-     * */
-
-    @Operation(summary = "This method is used to get a topic by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<TopicDTO> getTopicById(@PathVariable UUID id) {
-        TopicEntity topic = topicService.getTopicById(id);
-        TopicDTO topicDTO = topicMapper.toDto(topic);
-        log.info("Topic retrieved successfully: {}", topic.getTitle());
-        return ResponseEntity.ok(topicDTO);
     }
 
     /**
