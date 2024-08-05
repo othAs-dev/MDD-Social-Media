@@ -1,17 +1,17 @@
-<mat-card class="p-5 cursor-pointer" [routerLink]="['/article', id]">
+<mat-card class="p-5 cursor-pointer" [routerLink]="['/article', article.id]">
   <mat-card-header class="mb-3">
     <mat-card-title>
-      <h1 class="font-bold text-2xl">{{ title }}</h1>
+      <h1 class="font-bold text-2xl">{{ article.title }}</h1>
     </mat-card-title>
     <mat-card-subtitle>
       <div class="flex flex-row w-full gap-8">
-        <p class="text-lg">{{ date | date:  'dd/MM/yyyy' }}</p>
-        <p class="text-lg">{{ author }}</p>
-        <p class="text-lg">{{ topicTitle }}</p>
+        <p class="text-lg">{{ article.createdAt | date:  'dd/MM/yyyy' }}</p>
+        <p class="text-lg">{{ article.username }}</p>
+        <p class="text-lg">{{ article.topicTitle }}</p>
       </div>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="mb-3">
-    <p class="text-lg truncate">{{ description }}</p>
+    <p class="text-lg truncate">{{ article.description }}</p>
   </mat-card-content>
 </mat-card>
