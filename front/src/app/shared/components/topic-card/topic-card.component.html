@@ -5,7 +5,7 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="mb-3">
-    <p class="text-lg truncate">{{ description }}</p>
+    <p class="text-lg">Description: {{ description }}</p>
   </mat-card-content>
   <mat-card-footer class="w-full flex justify-center">
     <button mat-button mat-raised-button color="primary" (click)="handleFn($event)" [disabled]="isSubscribed">{{ btnContent }}</button>
