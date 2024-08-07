@@ -10,6 +10,7 @@ import {
 } from "@angular/material/card";
 import {DatePipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {Article} from "@app/home/article/article.model";
 
 @Component({
   selector: 'app-card-article',
@@ -29,11 +30,5 @@ import {RouterLink} from "@angular/router";
   styleUrl: './card-article.component.scss'
 })
 export class CardArticleComponent {
-  @Input({required: true}) id!: string;
-  @Input({required: true}) title!: string;
-  @Input({required: true}) description!: string;
-  @Input({required: true}) author!: string;
-  @Input({required: true}) date!: string;
-  @Input({required: true}) topicTitle!: string;
-
+  @Input({required: true}) article!: Article;
 }

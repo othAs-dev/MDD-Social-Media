@@ -56,8 +56,7 @@ public class TopicServiceImpl implements TopicService {
      * */
     @Override
     public TopicEntity getTopicById(UUID id) {
-        return topicRepository.findById(id)
-                .orElseThrow(() -> new ApiException.NotFoundException("Topic not found"));
+        return topicRepository.findById(id).orElseThrow(() -> new ApiException.NotFoundException("Topic not found"));
     }
 
     /**
