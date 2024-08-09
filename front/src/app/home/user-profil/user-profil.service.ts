@@ -26,7 +26,7 @@ export class UserProfilService {
    * @param userProfil The updated user profile data.
    * @returns An observable that emits the result of the update operation.
    */
-  public save(id: string, userProfil: UserProfil): Observable<UpdateUserProfil> {
+  public save(id: string, userProfil: Partial<UserProfil>): Observable<UpdateUserProfil> {
     return this._http.put<UpdateUserProfil>(`api/user/${id}`, userProfil);
   }
 
