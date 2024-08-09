@@ -72,27 +72,38 @@ export default class UserProfilComponent {
     tap(user => this.userDetailsForm.patchValue(user, { emitEvent: false }))
   );
 
-  /**
-   * Saves the updated user profile details.
-   * Submits the updated profile data to the server and handles success or error response.
-   * @param id The ID of the user whose profile is to be updated.
-   * @param credentials The updated user profile data.
-   */
-  protected save(id: string, credentials: UserProfil): void {
-    if (this.userDetailsForm.valid) {
-      this._userProfilService.save(id, credentials).pipe(take(1)).subscribe({
-        next: (response: UpdateUserProfil) => {
-          this._snackBar.open('Informations enregistrées avec succès !', 'Fermer');
+  protected getModifiedFields(): Partial<UserProfil> {
+    let modifiedFields: Partial<UserProfil> = {};
 
+    for (let control in this.userDetailsForm.controls) {
+      if (this.userDetailsForm.controls[control].dirty) {
+        // Type assertion to ensure TypeScript knows that control is a key of UserProfil
+        modifiedFields[control as keyof UserProfil] = this.userDetailsForm.controls[control].value;
+      }
+    }
+
+    return modifiedFields;
+  }
+
+
+  protected save(id: string): void {
+    console.log(this.userDetailsForm.value);
+
+    const modifiedFields = this.getModifiedFields();
+
+    if (Object.keys(modifiedFields).length > 0) {
+      this._userProfilService.save(id, modifiedFields).pipe(take(1)).subscribe({
+        next: (response: UpdateUserProfil) => {
           const newToken = response.accessToken;
           if (newToken) {
             this._authService.updateToken(newToken);
           }
         },
-        error: () => this._snackBar.open('Échec de l\'enregistrement, veuillez vérifier vos informations.', 'Fermer')
+        error: () => console.error('An error occurred while saving user details.')
       });
     }
   }
+
 
   /**
    * Logs out the current user and navigates to the login page.
